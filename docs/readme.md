@@ -1,0 +1,1 @@
+## These are the templates and default document structures
