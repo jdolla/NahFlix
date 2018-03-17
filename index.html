@@ -6,24 +6,52 @@
 
     <title>Page Title</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    
-    <!-- Stylesheets -->
-    <!-- Bootstrap CSS Needed -->
-    <link rel="stylesheet" type="text/css" media="screen" href="./assets/css/reset.css"/>
-    <link rel="stylesheet" type="text/css" media="screen" href="./assets/css/styles.css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 </head>
 <body>
-    
+<style>
+    .input-group {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border: 0;
+    border-radius: 0;
+    margin-bottom: 0;
+    font-size: 12px;
+    letter-spacing: 5px;
+    background-color: red;
+  }
+  #lifeWasters { 
+      background-color: #372e2e;
+      color: #ece5e5;
+  }
+  .container-fluid {
+      padding-top: 70px;
+      padding-bottom: 70px;
+  }
+</style>
+<div class="row">
 
+        <div class="col-lg-6">
+          <div class="input-group" id="searchInput">
+            <input type="text" class="form-control" placeholder="Search for...">
+            <span class="input-group-btn">
+              <button class="btn btn-default" id="searchBtn" type="button">Go!</button>
+            </span>
+          </div><!-- /input-group -->
+        </div><!-- /.col-lg-6 -->
+      </div><!-- /.row -->
 
+<div class="row">
 
-
-
-
-
-    <!-- Javascript Files Here:  Very Bottom of the Page-->
-    <script src="./assets/javascript/app.js"></script>
+    <div class="container-fluid bg-2 text-center" id="lifeWasters">
+        <div class="lifeWasters"><h3>Other Life Wasters</h3></div>
+        <div class="movie1" id="movie1">movie One</div>
+    </div>
+              
+</div>
 </body>
 </html>
