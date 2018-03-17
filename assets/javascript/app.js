@@ -1,70 +1,3 @@
-var emotion = (function(name, description, img){
-    var private = {
-        name: "",
-        description: "",
-        img: ""
-    };
-
-    private.name = name;
-    private.description = description;
-    private.img = img;
-
-    return {
-        name: function(){
-            return private.name;
-        },
-        description: function(){
-            return private.description;
-        },
-        img: function(){
-            return private.img;
-        },
-        elem: function(){
-            //This will return an html element
-            return "";
-        }
-    }
-});
-
-var shouldHave = (function(name){
-    var private = {
-        name: ""
-    };
-
-    private.name = name;
-
-    return {
-        name: function(){
-            return private.name;
-        },
-        elem: function(){
-            //Should return an html element; definition tbd
-            return "";
-        }
-    };
-
-});
-
-var comment = (function(timestamp, message){
-    var private = {
-        timestamp: null,
-        message: ""
-    };
-
-    private.timestamp = timestamp;
-    private.message = message;
-
-    return {
-        timestamp: function(){
-            return private.timestamp;
-        },
-        message: function(){
-            return private.message;
-        }
-    }
-
-});
-
 var movie = (function(id, name, poster, emotions, shouldHaves, comments){
     var private = {
         id: null,
@@ -77,23 +10,23 @@ var movie = (function(id, name, poster, emotions, shouldHaves, comments){
 
     private.id = id;
     private.name = name;
-    privte.poster = poster;
+    private.poster = poster;
     
-    if(emotions.constructor === Array){
+    if(emotions && emotions.constructor === Array){
         private.emotions = [];
         private.emotions.push(emotions);
     } else {
         private.emotions = emotions;
     }
 
-    if(shouldHave.constructor === Array){
+    if(shouldHave && shouldHave.constructor === Array){
         private.shouldHaves = [];
         private.shouldHaves.push(shouldHaves);
     } else {
         private.shouldHaves = shouldHaves;
     }
 
-    if(comments.constructor === Array){
+    if(comments && comments.constructor === Array){
         private.comments = [];
         private.comments.push(comments);
     } else {
@@ -131,6 +64,10 @@ var movie = (function(id, name, poster, emotions, shouldHaves, comments){
         upVoteShouldHaves: function(){
             //this will increase the correct shuldHave count and save to firebase
             return null;
+        },
+        getString: function(){
+            //returns a json string that represents the movie.
+            return JSON.stringify(private);
         }
     }
 
@@ -146,3 +83,4 @@ var config = {
     messagingSenderId: "736393655102"
 };
 firebase.initializeApp(config);
+fb = firebase.database();
