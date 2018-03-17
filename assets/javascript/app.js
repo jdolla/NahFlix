@@ -123,6 +123,14 @@ var movie = (function(id, name, poster, emotions, shouldHaves, comments){
         elem: function(){
             //should return elements for use in page
             return "";
+        },
+        upVoteEmotion: function(){
+            //this will increase the correct emotion count and save to firebase
+            return null;
+        },
+        upVoteShouldHaves: function(){
+            //this will increase the correct shuldHave count and save to firebase
+            return null;
         }
     }
 
