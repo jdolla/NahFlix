@@ -108,6 +108,9 @@ var movie = (function(id, name, poster, emotions, shouldHaves, comments){
         name: function(){
             return private.name;
         },  
+        poster: function(){
+            return private.poster;
+        },
         emotions: function(){
             return private.emotions;
         },   
