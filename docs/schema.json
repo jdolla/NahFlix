@@ -35,7 +35,7 @@
         "comments": [
             {
                 "timestamp": "datetime",
-                "comment": "text"
+                "message": "text"
             }
         ]
     }
