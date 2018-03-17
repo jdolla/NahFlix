@@ -1,0 +1,18 @@
+#lifeWasters { 
+    background-color: #e31222;
+    color: white;
+  }
+  .container-fluid {
+      padding-top: 70px;
+      padding-bottom: 70px;
+  }
+  img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+}
+
+.netTheme {
+    background-color: #fcfcfc;
+}
