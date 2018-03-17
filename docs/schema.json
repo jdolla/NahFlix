@@ -1,0 +1,42 @@
+{
+    "emotion": {
+        "name": "the emotion name, such as 'angry' or 'depressed'",
+        "description": "a humurous description of the emotion",
+        "img": "the filename for the image.  this will be used by the app."
+    },
+    "shouldHave": {
+        "name": "things that complete the the sentence:  i should have...",
+    },
+    "movie": {
+        "id": "this is the id that is obtained from The Movie Database",
+        "name": "the name of the movie",
+        "emotions": [
+            {
+                "emotion-1": "count"
+            },
+            {
+                "emotion-2": "count"
+            },
+            {
+                "emotion-n": "count"
+            }
+        ],
+        "shouldHaves": [
+            {
+                "shouldHave-1": "count"
+            },
+            {
+                "shouldHave-2": "count"
+            },
+            {
+                "shouldHave-3": "count"
+            }
+        ],
+        "comments": [
+            {
+                "timestamp": "datetime",
+                "comment": "text"
+            }
+        ]
+    }
+}
