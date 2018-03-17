@@ -19,7 +19,7 @@ var movie = (function(id, name, poster, emotions, shouldHaves, comments){
         private.emotions = emotions;
     }
 
-    if(shouldHave && shouldHave.constructor === Array){
+    if(shouldHaves && shouldHaves.constructor === Array){
         private.shouldHaves = [];
         private.shouldHaves.push(shouldHaves);
     } else {
@@ -57,21 +57,32 @@ var movie = (function(id, name, poster, emotions, shouldHaves, comments){
             //should return elements for use in page
             return "";
         },
-        upVoteEmotion: function(){
-            //this will increase the correct emotion count and save to firebase
+        upVoteEmotion: function(emotionName){
+            
             return null;
         },
         upVoteShouldHaves: function(){
             //this will increase the correct shuldHave count and save to firebase
             return null;
         },
-        getString: function(){
+        getData: function(){
             //returns a json string that represents the movie.
-            return JSON.stringify(private);
+            let jString = JSON.stringify(private, function(k, v){
+                if(k === "id") return undefined;
+                return v;
+            });
+
+            return JSON.parse(jString);
         }
     }
 
 });
+
+function saveMovie(movie){
+    // debugger;
+    fbMovieRef = fb.ref(`movies/${movie.id()}`);
+    fbMovieRef.set(movie.getData());
+}
 
 
 var config = {
