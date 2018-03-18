@@ -1,75 +1,3 @@
-var movie = (function (id, name, poster, emotions, shouldHaves, comments) {
-    var private = {
-        id: null,
-        name: "",
-        poster: "",
-        emotions: null,
-        shouldHaves: null,
-        comments: null
-    };
-
-    private.id = id;
-    private.name = name;
-    private.poster = poster;
-
-    if (emotions && emotions.constructor === Array) {
-        private.emotions = [];
-        private.emotions.push(emotions);
-    } else {
-        private.emotions = emotions;
-    }
-
-    if (shouldHaves && shouldHaves.constructor === Array) {
-        private.shouldHaves = [];
-        private.shouldHaves.push(shouldHaves);
-    } else {
-        private.shouldHaves = shouldHaves;
-    }
-
-    if (comments && comments.constructor === Array) {
-        private.comments = [];
-        private.comments.push(comments);
-    } else {
-        private.comments = comments;
-    }
-
-
-    return {
-        id: function () {
-            return private.id;
-        },
-        name: function () {
-            return private.name;
-        },
-        poster: function () {
-            return private.poster;
-        },
-        emotions: function () {
-            return private.emotions;
-        },
-        shouldHaves: function () {
-            return private.shouldHaves;
-        },
-        comments: function () {
-            return private.comments;
-        },
-        elem: function () {
-            //should return elements for use in page
-            return "";
-        },
-        getData: function () {
-            //returns a json string that represents the movie.
-            let jString = JSON.stringify(private, function (k, v) {
-                if (k === "id") return undefined;
-                return v;
-            });
-
-            return JSON.parse(jString);
-        }
-    }
-
-});
-
 function loadEmotions() {
     //fetches all the template emotions from firebase
     const eRef = fb.ref("emotions");
@@ -78,11 +6,42 @@ function loadEmotions() {
     });
 }
 
-function saveMovie(movie) {
-    // debugger;
-    fbMovieRef = fb.ref(`movies/${movie.id()}`);
-    fbMovieRef.set(movie.getData());
+function loadShouldHaves() {
+    //fetches all the template emotions from firebase
+    const sRef = fb.ref("shouldHaves");
+    sRef.once("value", function (s) {
+        shouldHaves = s.toJSON();
+    });
 }
+
+function saveNewMovie(id, title, poster) {
+    //Checks to see if a movie exists.
+    //Saves the movie if it doesn't exist.
+    newMovieRef = fb.ref(`movies/${id}`);
+    newMovieRef.once("value", function(s){
+        if(!s.exists()){
+            let newMovie = {
+                "title": `${title}`,
+                "poster": `${poster}`,
+                "emotions": emotions,
+                "totalEmotions":0,
+                "shouldHaves": shouldHaves,
+                "totalShouldHaves":0,
+                "comments":[{"message":"Be the first!", "timestamp":firebase.database.ServerValue.TIMESTAMP}]
+            };
+            newMovieRef.set(newMovie);
+        }
+    });
+}
+
+// function loadMostVoted(){
+//     moviesRef = fb.ref("movie");
+
+    
+
+// }
+
+
 
 var config = {
     apiKey: "AIzaSyC1lgIwwL6TZ3FvR-t_XjP63cgnx-s_T7E",
@@ -99,15 +58,8 @@ fb = firebase.database();
 
 var emotions;
 var shouldHaves;
+var comments;
 
-loadEmotions();
 
-// https://javascript.info/async-await
-// async function getEmotions() {
-//     const eRef = fb.ref("emotions");
-//     let eSnap = eRef.once("value", function(s){});
-
-//     let result = await eSnap;
-//     return result.toJSON();
-// }
-
+// loadEmotions();
+// loadShouldHaves();

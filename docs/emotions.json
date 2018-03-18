@@ -1,26 +1,26 @@
 {
-    "emotions":[
-        {"name":"Indifferent" , "description":"(Haughty, Impervious, Unresponsive, Apathetic)", "img":"indifferent.jpg", "count":0},
-        {"name":"Bored", "description":"(Fatigued, Disinterested, Spiritless)", "img":"bored.jpg", "count":0},
-        {"name":"Averse", "description":"(loathsome, Hostile, Illdisposed, Allergic, Perverse)", "img":"Averse", "count":0},
-        {"name":"Disgusted", "description":"(Appalled*, Nauseated, Abhorred, Scandalized, Repulsed)", "img":"Disgusted", "count":0},
-        {"name":"Panicky", "description":"(Unnerved)", "img":"Panicky", "count":0},
-        {"name":"Fearful", "description":"(Chickenhearted, Lily-livered, perturbed, Aghast)", "img":"Fearful", "count":0},
-        {"name":"Anxious", "description":"(Shot to pieces, Shook up, In a tizzy, Troubled)", "img":"Anxious", "count":0},
-        {"name":"Dreadful", "description":"(Atrocious, Grievous, Shameful)", "img":"Dreadful", "count":0},
-        {"name":"Angry", "description":"(Enraged, Bitter, Resentful, Sullen, Exasperated*)", "img":"Angry", "count":0},
-        {"name":"Sorrowful", "description":"(Afflicted, Sick at heart)", "img":"Sorrowful", "count":0},
-        {"name":"Frustrated", "description":"(foiled, Defeated*, Irked)", "img":"Frustrated", "count":0},
-        {"name":"Disappointed", "description":"(Disgruntled, Dissatisfied, Vanquished*)", "img":"Disappointed", "count":0},
-        {"name":"Restless", "description":"(Agitated, Unsettled, Disturbed)", "img":"Restless", "count":0},
-        {"name":"Worried", "description":"(Bothered, Frightened, Perturbed)", "img":"Worried", "count":0},
-        {"name":"Ashamed", "description":"(Distraught, Repentent)", "img":"Ashamed", "count":0},
-        {"name":"Despair", "description":"(Anguished, Discouraged, Miserable)", "img":"Despair", "count":0},
-        {"name":"Hurt", "description":"(Tortured*, Contused, Damaged)", "img":"Hurt", "count":0},
-        {"name":"Sad", "description":"(Cheerless, Bitter, Grief-stricken)", "img":"Sad", "count":0},
-        {"name":"Shocked", "description":"(Appalled, Offended, Dismayed)", "img":"Shocked", "count":0},
-        {"name":"Tormented", "description":"(Molested, Vexed, Annoyed, Afflicted)", "img":"Tormented", "count":0},
-        {"name":"Confused", "description":"(Befuddled. Bewildered, Perplexed, Misled, Unzipped, Thrown)", "img":"Confused", "count":0}
-    ]
+    "emotions":{
+        "Indifferent":{ "description":"(Haughty, Impervious, Unresponsive, Apathetic)", "img":"indifferent.jpg", "count":0},
+        "Bored":{ "description":"(Fatigued, Disinterested, Spiritless)", "img":"bored.jpg", "count":0},
+        "Averse":{ "description":"(loathsome, Hostile, Illdisposed, Allergic, Perverse)", "img":"Averse", "count":0},
+        "Disgusted":{ "description":"(Appalled*, Nauseated, Abhorred, Scandalized, Repulsed)", "img":"Disgusted", "count":0},
+        "Panicky":{ "description":"(Unnerved)", "img":"Panicky", "count":0},
+        "Fearful":{ "description":"(Chickenhearted, Lily-livered, perturbed, Aghast)", "img":"Fearful", "count":0},
+        "Anxious":{ "description":"(Shot to pieces, Shook up, In a tizzy, Troubled)", "img":"Anxious", "count":0},
+        "Dreadful":{ "description":"(Atrocious, Grievous, Shameful)", "img":"Dreadful", "count":0},
+        "Angry":{ "description":"(Enraged, Bitter, Resentful, Sullen, Exasperated*)", "img":"Angry", "count":0},
+        "Sorrowful":{ "description":"(Afflicted, Sick at heart)", "img":"Sorrowful", "count":0},
+        "Frustrated":{ "description":"(foiled, Defeated*, Irked)", "img":"Frustrated", "count":0},
+        "Disappointed":{ "description":"(Disgruntled, Dissatisfied, Vanquished*)", "img":"Disappointed", "count":0},
+        "Restless":{ "description":"(Agitated, Unsettled, Disturbed)", "img":"Restless", "count":0},
+        "Worried":{ "description":"(Bothered, Frightened, Perturbed)", "img":"Worried", "count":0},
+        "Ashamed":{ "description":"(Distraught, Repentent)", "img":"Ashamed", "count":0},
+        "Despair":{ "description":"(Anguished, Discouraged, Miserable)", "img":"Despair", "count":0},
+        "Hurt":{ "description":"(Tortured*, Contused, Damaged)", "img":"Hurt", "count":0},
+        "Sad":{ "description":"(Cheerless, Bitter, Grief-stricken)", "img":"Sad", "count":0},
+        "Shocked": { "description":"(Appalled, Offended, Dismayed)", "img":"Shocked", "count":0},
+        "Tormented": { "description":"(Molested, Vexed, Annoyed, Afflicted)", "img":"Tormented", "count":0},
+        "Confused": { "description":"(Befuddled. Bewildered, Perplexed, Misled, Unzipped, Thrown)", "img":"Confused", "count":0}
+    }
 }
 
