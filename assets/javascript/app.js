@@ -1,4 +1,4 @@
-var movie = (function(id, name, poster, emotions, shouldHaves, comments){
+var movie = (function (id, name, poster, emotions, shouldHaves, comments) {
     var private = {
         id: null,
         name: "",
@@ -11,22 +11,22 @@ var movie = (function(id, name, poster, emotions, shouldHaves, comments){
     private.id = id;
     private.name = name;
     private.poster = poster;
-    
-    if(emotions && emotions.constructor === Array){
+
+    if (emotions && emotions.constructor === Array) {
         private.emotions = [];
         private.emotions.push(emotions);
     } else {
         private.emotions = emotions;
     }
 
-    if(shouldHaves && shouldHaves.constructor === Array){
+    if (shouldHaves && shouldHaves.constructor === Array) {
         private.shouldHaves = [];
         private.shouldHaves.push(shouldHaves);
     } else {
         private.shouldHaves = shouldHaves;
     }
 
-    if(comments && comments.constructor === Array){
+    if (comments && comments.constructor === Array) {
         private.comments = [];
         private.comments.push(comments);
     } else {
@@ -35,40 +35,32 @@ var movie = (function(id, name, poster, emotions, shouldHaves, comments){
 
 
     return {
-        id: function(){
+        id: function () {
             return private.id;
-        }, 
-        name: function(){
+        },
+        name: function () {
             return private.name;
-        },  
-        poster: function(){
+        },
+        poster: function () {
             return private.poster;
         },
-        emotions: function(){
+        emotions: function () {
             return private.emotions;
-        },   
-        shouldHaves: function(){
+        },
+        shouldHaves: function () {
             return private.shouldHaves;
-        },   
-        comments: function(){
+        },
+        comments: function () {
             return private.comments;
         },
-        elem: function(){
+        elem: function () {
             //should return elements for use in page
             return "";
         },
-        upVoteEmotion: function(emotionName){
-            
-            return null;
-        },
-        upVoteShouldHaves: function(){
-            //this will increase the correct shuldHave count and save to firebase
-            return null;
-        },
-        getData: function(){
+        getData: function () {
             //returns a json string that represents the movie.
-            let jString = JSON.stringify(private, function(k, v){
-                if(k === "id") return undefined;
+            let jString = JSON.stringify(private, function (k, v) {
+                if (k === "id") return undefined;
                 return v;
             });
 
@@ -78,12 +70,19 @@ var movie = (function(id, name, poster, emotions, shouldHaves, comments){
 
 });
 
-function saveMovie(movie){
+function loadEmotions() {
+    //fetches all the template emotions from firebase
+    const eRef = fb.ref("emotions");
+    eRef.once("value", function (s) {
+        emotions = s.toJSON();
+    });
+}
+
+function saveMovie(movie) {
     // debugger;
     fbMovieRef = fb.ref(`movies/${movie.id()}`);
     fbMovieRef.set(movie.getData());
 }
-
 
 var config = {
     apiKey: "AIzaSyC1lgIwwL6TZ3FvR-t_XjP63cgnx-s_T7E",
@@ -95,3 +94,20 @@ var config = {
 };
 firebase.initializeApp(config);
 fb = firebase.database();
+
+
+
+var emotions;
+var shouldHaves;
+
+loadEmotions();
+
+// https://javascript.info/async-await
+// async function getEmotions() {
+//     const eRef = fb.ref("emotions");
+//     let eSnap = eRef.once("value", function(s){});
+
+//     let result = await eSnap;
+//     return result.toJSON();
+// }
+
