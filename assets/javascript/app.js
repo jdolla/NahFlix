@@ -14,24 +14,21 @@ function loadShouldHaves() {
     });
 }
 
-function saveNewMovie(id, title, poster) {
-    //Checks to see if a movie exists.
-    //Saves the movie if it doesn't exist.
-    newMovieRef = fb.ref(`movies/${id}`);
-    newMovieRef.once("value", function (s) {
-        if (!s.exists()) {
-            let newMovie = {
-                "title": `${title}`,
-                "poster": `${poster}`,
-                "emotions": emotions,
-                "totalEmotions": 0,
-                "shouldHaves": shouldHaves,
-                "totalShouldHaves": 0,
-                "comments": [{ "message": "Be the first!", "timestamp": firebase.database.ServerValue.TIMESTAMP }]
-            };
-            newMovieRef.set(newMovie);
-        }
-    });
+function getNewMovie(movie) {
+
+    let newMovie = {
+        "title": `${movie.title}`,
+        "poster": `${movie.poster}`,
+        "emotions": emotions,
+        "totalEmotions": 0,
+        "shouldHaves": shouldHaves,
+        "totalShouldHaves": 0,
+        "comments": [{ "message": "Be the first!", "timestamp": firebase.database.ServerValue.TIMESTAMP }]
+    };
+
+    moviesRef.child(movie.id).set(newMovie);
+
+    return {id: movie.id, movie: newMovie};
 }
 
 function loadMostVoted() {
@@ -44,11 +41,52 @@ function loadMostVoted() {
             addPreview(movieId, movie);
 
         });
-        
+
     });
 
 }
 
+
+function fetchOrCreateMovies(movies, action) {
+    //movies:  object
+    //{id:int, title:string, path:string}
+
+    //action: this should be a function that handles movie objects.
+
+    //https://firebase.googleblog.com/2016/01/keeping-our-promises-and-callbacks_76.html
+    //https://scotch.io/tutorials/javascript-promises-for-dummies
+
+    let pList = []; //a list of promises; see the resources above for more info
+
+    for (let i = 0; i < movies.length; i++) {
+        //generate a list of promises that will be evaluated later.
+        const elem = movies[i];
+        pList.push(
+            moviesRef.child(elem.id).once('value').then(
+                function (snap) {
+                    if(snap.exists()){
+                        let movie = {
+                            id: snap.key,
+                            movie: snap.toJSON()
+                        }
+                        return movie;
+                    } else {
+                        // return newMovie(this.id, this.title, this.poster);
+                        let movie = getNewMovie(this);
+                        return movie;
+                    }
+                }.bind({ id: elem.id, title: elem.title, poster: elem.poster})
+            )
+        )
+    }
+    
+    Promise.all(pList).then(action);
+
+}
+
+function renderSearch(movies){
+    console.log(movies);
+}
 
 function mostCountedNahMoji(emotions) {
     let topEmotion;
@@ -63,12 +101,12 @@ function mostCountedNahMoji(emotions) {
         }
     }
 
-    if(topEmotion.emotion.count === 0){
+    if (topEmotion.emotion.count === 0) {
         return {
-            "name":"Nah this flick?",
-            "emotion":{
-                "description":"This flick hasn't been rated",
-                "img":"nahMoji.jpg"
+            "name": "Nah this flick?",
+            "emotion": {
+                "description": "This flick hasn't been rated",
+                "img": "nahMoji.jpg"
             }
         }
     }
@@ -77,10 +115,10 @@ function mostCountedNahMoji(emotions) {
 
 
 
-function addPreview(movieId, movie){
+function addPreview(movieId, movie) {
 
     let posterDiv = $('<div>', {
-        class:"poster",
+        class: "poster",
         "data-id": movieId
     });
 
@@ -90,12 +128,12 @@ function addPreview(movieId, movie){
         alt: "A movie poster"
     }));
 
-    $(posterDiv).append($('<h1>', {class:"poster-title"}).text(
+    $(posterDiv).append($('<h1>', { class: "poster-title" }).text(
         movie.title
     ))
 
     let topNahMoji = mostCountedNahMoji(movie.emotions);
-    let nahMojiDiv = $('<div>', {class: "nahMoji"});
+    let nahMojiDiv = $('<div>', { class: "nahMoji" });
     $(nahMojiDiv).html($('<img>', {
         class: "nahMoji-pic",
         src: topNahMoji.emotion.img,
@@ -104,11 +142,22 @@ function addPreview(movieId, movie){
         "data-description": topNahMoji.emotion.description
     }));
 
-    let movieDiv = $('<div>', {class:"movie"});
+    let movieDiv = $('<div>', { class: "movie" });
     $(movieDiv).append(posterDiv);
     $(movieDiv).append(nahMojiDiv);
     $(lifeWasters).append(movieDiv);
 }
+
+
+// function searchMovies(searchCriteria){
+//     const endpoint = "https://api.themoviedb.org/3/search/movie";
+//     const apiKey = "ce1c7db1d5a1e3d2ac7aba7563b687cf";
+//     const url = `${endpoint}?api_key=${apiKey}&language=en-US&query=The%20Matrix&page=1&include_adult=false`;
+
+//     const settings = {
+//         url: 
+//     }
+// }
 
 
 var config = {
@@ -134,7 +183,13 @@ const lifeWasters = $("#lifeWasters");
 
 const TMD_BASE_URL = "https://image.tmdb.org/t/p/w185";
 
+
 loadEmotions();
 loadShouldHaves();
 
 loadMostVoted();
+
+fetchOrCreateMovies( [
+    { id: 603, title: "The Matrix", poster: "/hEpWvX6Bp79eLxY1kX5ZZJcme5U.jpg" },
+    { id: 100, title: "Frankie", poster: "/z.jpg" }
+], renderSearch);
