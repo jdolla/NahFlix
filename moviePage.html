@@ -14,7 +14,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 </head>
-<body>
+<body class="movieBackground">
 <div class="row">
 <div class="container-fluid bg-1 text-center">
     
@@ -40,9 +40,9 @@
 
     <div class="container-fluid">
               
-
-        <div class="col-sm-4 col-xs-12">
-            <div class="panel panel-default text-center">
+        <div class="container">
+        <div class="col-sm-12 col-xs-12">
+            <div class="panel panel-default text-center block-center">
                 <div class="panel-heading">
                         <h1>Movie</h1>
                 </div>
@@ -55,7 +55,7 @@
                 </div>   
             </div>      
         </div> 
-        <div class="col-sm-4 col-xs-12">
+        <div class="col-sm-12 col-xs-12">
                 <div class="panel panel-default text-center">
                     <div class="panel-heading">
                             <h1>Top Emojii</h1>
@@ -68,7 +68,7 @@
                     </div>   
                 </div>      
         </div>   
-        <div class="col-sm-4 col-xs-12">
+        <div class="col-sm-12 col-xs-12">
                 <div class="panel panel-default text-center">
                     <div class="panel-heading">
                             <h1>How It Made Me Feel</h1>
@@ -81,7 +81,7 @@
                     </div>   
                 </div>      
         </div>    
-        <div class="col-sm-4 col-xs-12">
+        <div class="col-sm-12 col-xs-12">
                 <div class="panel panel-default text-center">
                     <div class="panel-heading">
                             <h1>I Would Rather Have ...</h1>
@@ -95,8 +95,8 @@
                     </div>   
                 </div>      
         </div> 
-        <div class="col-sm-4 col-xs-12">
-                <div class="panel panel-default text-center">
+        <div class="col-sm-12 col-xs-12">
+                <div class="panel panel-default ">
                     <div class="panel-heading">
                             <h1>Comments</h1>
                     </div>
@@ -104,16 +104,21 @@
                     <div class="panel-body">
                             <p>
                                     Most Recent
-                                <div id="commentsDisplay">
-                                      
-                                        comment Div
-                                </div>
+                                <div id="commentsDisplay"></div>
+                                <form>
+                                        <div class="form-group">
+                                          
+                                          <textarea class="form-control" rows="5" id="comment" placeholder="Add Comment"></textarea>
+                                        </div>
+                                </form>
+                        
                             </p>
 
                     </div>   
                 </div>      
         </div>   
     </div>
+</div>
 </div>
               
   
