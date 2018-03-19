@@ -16,3 +16,10 @@
 .netTheme {
     background-color: #fcfcfc;
 }
+.panel-heading{
+    background-color: #e31222;
+    color: white;
+}
+.movieBackground{
+    background-color: black
+}
