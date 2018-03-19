@@ -46,7 +46,6 @@ function loadMostVoted() {
 
 }
 
-
 function fetchOrCreateMovies(movies, action) {
     //movies:  object
     //{id:int, title:string, path:string}
@@ -85,6 +84,10 @@ function fetchOrCreateMovies(movies, action) {
 }
 
 function renderSearch(movies){
+    //should be used to render the search results
+    //takes an array of movies.
+    // {id:int, movie:object}
+    // can be passed to 'fetchOrCreateMovies' as the 'action'
     console.log(movies);
 }
 
@@ -112,8 +115,6 @@ function mostCountedNahMoji(emotions) {
     }
     return topEmotion;
 }
-
-
 
 function addPreview(movieId, movie) {
 
@@ -149,17 +150,6 @@ function addPreview(movieId, movie) {
 }
 
 
-// function searchMovies(searchCriteria){
-//     const endpoint = "https://api.themoviedb.org/3/search/movie";
-//     const apiKey = "ce1c7db1d5a1e3d2ac7aba7563b687cf";
-//     const url = `${endpoint}?api_key=${apiKey}&language=en-US&query=The%20Matrix&page=1&include_adult=false`;
-
-//     const settings = {
-//         url: 
-//     }
-// }
-
-
 var config = {
     apiKey: "AIzaSyC1lgIwwL6TZ3FvR-t_XjP63cgnx-s_T7E",
     authDomain: "nahflix.firebaseapp.com",
@@ -168,6 +158,7 @@ var config = {
     storageBucket: "",
     messagingSenderId: "736393655102"
 };
+
 firebase.initializeApp(config);
 fb = firebase.database();
 
@@ -189,6 +180,8 @@ loadShouldHaves();
 
 loadMostVoted();
 
+
+//sample call - for rendering search
 fetchOrCreateMovies( [
     { id: 603, title: "The Matrix", poster: "/hEpWvX6Bp79eLxY1kX5ZZJcme5U.jpg" },
     { id: 100, title: "Frankie", poster: "/z.jpg" }
