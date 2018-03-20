@@ -1,140 +1,153 @@
-var emotion = (function(name, description, img){
-    var private = {
-        name: "",
-        description: "",
-        img: ""
+function loadEmotions() {
+    //fetches all the template emotions from firebase
+    const eRef = fb.ref("emotions");
+    eRef.once("value", function (s) {
+        emotions = s.toJSON();
+    });
+}
+
+function loadShouldHaves() {
+    //fetches all the template emotions from firebase
+    const sRef = fb.ref("shouldHaves");
+    sRef.once("value", function (s) {
+        shouldHaves = s.toJSON();
+    });
+}
+
+function getNewMovie(movie) {
+
+    let newMovie = {
+        "title": `${movie.title}`,
+        "poster": `${movie.poster}`,
+        "emotions": emotions,
+        "totalEmotions": 0,
+        "shouldHaves": shouldHaves,
+        "totalShouldHaves": 0,
+        "comments": [{ "message": "Be the first!", "timestamp": firebase.database.ServerValue.TIMESTAMP }]
     };
 
-    private.name = name;
-    private.description = description;
-    private.img = img;
+    moviesRef.child(movie.id).set(newMovie);
 
-    return {
-        name: function(){
-            return private.name;
-        },
-        description: function(){
-            return private.description;
-        },
-        img: function(){
-            return private.img;
-        },
-        elem: function(){
-            //This will return an html element
-            return "";
-        }
+    return {id: movie.id, movie: newMovie};
+}
+
+function loadMostVoted() {
+
+    moviesRef.orderByChild("totalEmotions").limitToLast(3).once("value", function (s) {
+        s.forEach(child => {
+            let movieId = child.key;
+            let movie = child.toJSON();
+
+            addPreview(movieId, movie);
+
+        });
+
+    });
+
+}
+
+function fetchOrCreateMovies(movies, action) {
+    //movies:  object
+    //{id:int, title:string, path:string}
+
+    //action: this should be a function that handles movie objects.
+
+    //https://firebase.googleblog.com/2016/01/keeping-our-promises-and-callbacks_76.html
+    //https://scotch.io/tutorials/javascript-promises-for-dummies
+
+    let pList = []; //a list of promises; see the resources above for more info
+
+    for (let i = 0; i < movies.length; i++) {
+        //generate a list of promises that will be evaluated later.
+        const elem = movies[i];
+        pList.push(
+            moviesRef.child(elem.id).once('value').then(
+                function (snap) {
+                    if(snap.exists()){
+                        let movie = {
+                            id: snap.key,
+                            movie: snap.toJSON()
+                        }
+                        return movie;
+                    } else {
+                        // return newMovie(this.id, this.title, this.poster);
+                        let movie = getNewMovie(this);
+                        return movie;
+                    }
+                }.bind({ id: elem.id, title: elem.title, poster: elem.poster})
+            )
+        )
     }
-});
-
-var shouldHave = (function(name){
-    var private = {
-        name: ""
-    };
-
-    private.name = name;
-
-    return {
-        name: function(){
-            return private.name;
-        },
-        elem: function(){
-            //Should return an html element; definition tbd
-            return "";
-        }
-    };
-
-});
-
-var comment = (function(timestamp, message){
-    var private = {
-        timestamp: null,
-        message: ""
-    };
-
-    private.timestamp = timestamp;
-    private.message = message;
-
-    return {
-        timestamp: function(){
-            return private.timestamp;
-        },
-        message: function(){
-            return private.message;
-        }
-    }
-
-});
-
-var movie = (function(id, name, poster, emotions, shouldHaves, comments){
-    var private = {
-        id: null,
-        name: "",
-        poster: "",
-        emotions: null,
-        shouldHaves: null,
-        comments: null
-    };
-
-    private.id = id;
-    private.name = name;
-    privte.poster = poster;
     
-    if(emotions.constructor === Array){
-        private.emotions = [];
-        private.emotions.push(emotions);
-    } else {
-        private.emotions = emotions;
-    }
+    Promise.all(pList).then(action);
 
-    if(shouldHave.constructor === Array){
-        private.shouldHaves = [];
-        private.shouldHaves.push(shouldHaves);
-    } else {
-        private.shouldHaves = shouldHaves;
-    }
+}
 
-    if(comments.constructor === Array){
-        private.comments = [];
-        private.comments.push(comments);
-    } else {
-        private.comments = comments;
-    }
+function renderSearch(movies){
+    //should be used to render the search results
+    //takes an array of movies.
+    // {id:int, movie:object}
+    // can be passed to 'fetchOrCreateMovies' as the 'action'
+    console.log(movies);
+}
 
-
-    return {
-        id: function(){
-            return private.id;
-        }, 
-        name: function(){
-            return private.name;
-        },  
-        poster: function(){
-            return private.poster;
-        },
-        emotions: function(){
-            return private.emotions;
-        },   
-        shouldHaves: function(){
-            return private.shouldHaves;
-        },   
-        comments: function(){
-            return private.comments;
-        },
-        elem: function(){
-            //should return elements for use in page
-            return "";
-        },
-        upVoteEmotion: function(){
-            //this will increase the correct emotion count and save to firebase
-            return null;
-        },
-        upVoteShouldHaves: function(){
-            //this will increase the correct shuldHave count and save to firebase
-            return null;
+function mostCountedNahMoji(emotions) {
+    let topEmotion;
+    const emotionKeys = Object.keys(emotions);
+    for (let i = 0; i < emotionKeys.length; i++) {
+        const emotion = emotions[emotionKeys[i]];
+        if (!topEmotion || topEmotion["emotion"].count < emotion.count) {
+            topEmotion = {
+                "name": emotionKeys[i],
+                "emotion": emotion
+            }
         }
     }
 
-});
+    if (topEmotion.emotion.count === 0) {
+        return {
+            "name": "Nah this flick?",
+            "emotion": {
+                "description": "This flick hasn't been rated",
+                "img": "nahMoji.jpg"
+            }
+        }
+    }
+    return topEmotion;
+}
+
+function addPreview(movieId, movie) {
+
+    let posterDiv = $('<div>', {
+        class: "poster",
+        "data-id": movieId
+    });
+
+    $(posterDiv).append($('<img>', {
+        class: "poster-pic",
+        src: TMD_BASE_URL + movie.poster,
+        alt: "A movie poster"
+    }));
+
+    $(posterDiv).append($('<h1>', { class: "poster-title" }).text(
+        movie.title
+    ))
+
+    let topNahMoji = mostCountedNahMoji(movie.emotions);
+    let nahMojiDiv = $('<div>', { class: "nahMoji" });
+    $(nahMojiDiv).html($('<img>', {
+        class: "nahMoji-pic",
+        src: topNahMoji.emotion.img,
+        alt: "A NahMoji",
+        "data-name": topNahMoji.name,
+        "data-description": topNahMoji.emotion.description
+    }));
+
+    let movieDiv = $('<div>', { class: "movie" });
+    $(movieDiv).append(posterDiv);
+    $(movieDiv).append(nahMojiDiv);
+    $(lifeWasters).append(movieDiv);
+}
 
 
 var config = {
@@ -145,4 +158,31 @@ var config = {
     storageBucket: "",
     messagingSenderId: "736393655102"
 };
+
 firebase.initializeApp(config);
+fb = firebase.database();
+
+
+var emotions;
+var shouldHaves;
+var comments;
+
+const mojiRoot = "./assets/images/";
+
+const moviesRef = fb.ref("movies");
+const lifeWasters = $("#lifeWasters");
+
+const TMD_BASE_URL = "https://image.tmdb.org/t/p/w185";
+
+
+loadEmotions();
+loadShouldHaves();
+
+loadMostVoted();
+
+
+//sample call - for rendering search
+fetchOrCreateMovies( [
+    { id: 603, title: "The Matrix", poster: "/hEpWvX6Bp79eLxY1kX5ZZJcme5U.jpg" },
+    { id: 100, title: "Frankie", poster: "/z.jpg" }
+], renderSearch);
