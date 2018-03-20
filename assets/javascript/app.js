@@ -1,4 +1,4 @@
-function loadEmotions() {
+function cacheEmotions() {
     //fetches all the template emotions from firebase
     const eRef = fb.ref("emotions");
     eRef.once("value", function (s) {
@@ -6,7 +6,7 @@ function loadEmotions() {
     });
 }
 
-function loadShouldHaves() {
+function cacheShouldHaves() {
     //fetches all the template emotions from firebase
     const sRef = fb.ref("shouldHaves");
     sRef.once("value", function (s) {
@@ -28,22 +28,64 @@ function getNewMovie(movie) {
 
     moviesRef.child(movie.id).set(newMovie);
 
-    return {id: movie.id, movie: newMovie};
+    return { id: movie.id, movie: newMovie };
 }
 
-function loadMostVoted() {
+function renderPreviews() {
 
     moviesRef.orderByChild("totalEmotions").limitToLast(3).once("value", function (s) {
-        s.forEach(child => {
-            let movieId = child.key;
-            let movie = child.toJSON();
 
-            addPreview(movieId, movie);
+        /*
+             TO DO:  Need to get a single div on the page that we can clear out
+             then populate with previews.
+        */
+        $("#lifeWasters").empty();
+
+        s.forEach(child => {
+            let preview = {
+                id: child.key,
+                movie: child.toJSON()
+            };
+
+            renderPreview(preview);
 
         });
 
     });
 
+}
+
+function renderPreview(preview) {
+
+    let posterDiv = $('<div>', {
+        class: "poster",
+        "data-id": preview.id
+    });
+
+    $(posterDiv).append($('<img>', {
+        class: "poster-pic",
+        src: MOVIE_DB_IMG_URL + preview.movie.poster,
+        alt: "A movie poster"
+    }));
+
+    $(posterDiv).append($('<h1>', { class: "poster-title" }).text(
+        preview.movie.title
+    ))
+
+    let topNahMoji = mostCountedNahMoji(preview.movie.emotions);
+    let nahMojiDiv = $('<div>', { class: "nahMoji" });
+    $(nahMojiDiv).html($('<img>', {
+        class: "nahMoji-pic",
+        src: topNahMoji.emotion.img,
+        alt: "A NahMoji",
+        "data-name": topNahMoji.name,
+        "data-description": topNahMoji.emotion.description
+    }));
+
+    let movieDiv = $('<div>', { class: "movie" });
+    $(movieDiv).append(posterDiv);
+    $(movieDiv).append(nahMojiDiv);
+    $(lifeWasters).append(movieDiv);
 }
 
 function fetchOrCreateMovies(movies, action) {
@@ -63,7 +105,7 @@ function fetchOrCreateMovies(movies, action) {
         pList.push(
             moviesRef.child(elem.id).once('value').then(
                 function (snap) {
-                    if(snap.exists()){
+                    if (snap.exists()) {
                         let movie = {
                             id: snap.key,
                             movie: snap.toJSON()
@@ -74,16 +116,16 @@ function fetchOrCreateMovies(movies, action) {
                         let movie = getNewMovie(this);
                         return movie;
                     }
-                }.bind({ id: elem.id, title: elem.title, poster: elem.poster})
+                }.bind({ id: elem.id, title: elem.title, poster: elem.poster })
             )
         )
     }
-    
+
     Promise.all(pList).then(action);
 
 }
 
-function renderSearch(movies){
+function renderSearch(movies) {
     //should be used to render the search results
     //takes an array of movies.
     // {id:int, movie:object}
@@ -116,38 +158,61 @@ function mostCountedNahMoji(emotions) {
     return topEmotion;
 }
 
-function addPreview(movieId, movie) {
+async function upVoteEmotion(movieId, emotion) {
 
-    let posterDiv = $('<div>', {
-        class: "poster",
-        "data-id": movieId
+    //https://firebase.google.com/docs/reference/js/firebase.database.Reference#transaction
+    let movieNahMoji = fb.ref(`movies/${movieId}/emotions`);
+    let tx = await movieNahMoji.child(emotion).child("count").transaction(function (count) {
+        return (count || 0) + 1;
     });
 
-    $(posterDiv).append($('<img>', {
-        class: "poster-pic",
-        src: TMD_BASE_URL + movie.poster,
-        alt: "A movie poster"
-    }));
+    let movieRef = fb.ref(`movies/${movieId}`);
+    let txTotal = movieRef.child("totalEmotions").transaction(function(total){
+        return (total || 0) + 1;
+    });
 
-    $(posterDiv).append($('<h1>', { class: "poster-title" }).text(
-        movie.title
-    ))
+    let NahMojis = await movieNahMoji.once('value').then(
+        function (snap) {
+            return snap.toJSON();
+        }
+    );
 
-    let topNahMoji = mostCountedNahMoji(movie.emotions);
-    let nahMojiDiv = $('<div>', { class: "nahMoji" });
-    $(nahMojiDiv).html($('<img>', {
-        class: "nahMoji-pic",
-        src: topNahMoji.emotion.img,
-        alt: "A NahMoji",
-        "data-name": topNahMoji.name,
-        "data-description": topNahMoji.emotion.description
-    }));
-
-    let movieDiv = $('<div>', { class: "movie" });
-    $(movieDiv).append(posterDiv);
-    $(movieDiv).append(nahMojiDiv);
-    $(lifeWasters).append(movieDiv);
+    return NahMojis;
 }
+
+async function upVoteShouldHaves(movieId, shouldHave) {
+   
+    //https://firebase.google.com/docs/reference/js/firebase.database.Reference#transaction
+    let movieShouldHaves = fb.ref(`movies/${movieId}/shouldHaves`);
+    let tx = await movieShouldHaves.child(shouldHave).child("count").transaction(function (count) {
+        return (count || 0) + 1;
+    });
+
+    let movieRef = fb.ref(`movies/${movieId}`);
+    let txtotal = movieRef.child("totalShouldHaves").transaction(function(total){
+        return (total || 0) + 1;
+    });
+
+    let shouldHaves = await movieShouldHaves.once('value').then(
+        function (snap) {
+            return snap.toJSON();
+        }
+    );
+
+    return shouldHaves;
+}
+
+function renderNahMojiChart(emotions) {
+    //TODO:  Need to add code to get google chart and plug it in where it belongs.
+    console.log(emotions);
+}
+
+function renderShouldHavesChart(shouldHaves) {
+    //TODO:  Need to add code to get google chart and plug it in somewhere
+    console.log(shouldHaves);
+}
+
+
 
 
 var config = {
@@ -162,7 +227,6 @@ var config = {
 firebase.initializeApp(config);
 fb = firebase.database();
 
-
 var emotions;
 var shouldHaves;
 var comments;
@@ -172,17 +236,23 @@ const mojiRoot = "./assets/images/";
 const moviesRef = fb.ref("movies");
 const lifeWasters = $("#lifeWasters");
 
-const TMD_BASE_URL = "https://image.tmdb.org/t/p/w185";
+const MOVIE_DB_IMG_URL = "https://image.tmdb.org/t/p/w185";
+
+google.charts.load('current', {packages: ['corechart']});
+// google.charts.setOnLoadCallback(drawChart);
+
+cacheEmotions();
+cacheShouldHaves();
+
+renderPreviews();
 
 
-loadEmotions();
-loadShouldHaves();
+// upVoteEmotion(603, "Angry").then(renderNahMojiChart)
 
-loadMostVoted();
+upVoteShouldHaves(603, "Take a nap").then(renderShouldHavesChart);
 
-
-//sample call - for rendering search
-fetchOrCreateMovies( [
-    { id: 603, title: "The Matrix", poster: "/hEpWvX6Bp79eLxY1kX5ZZJcme5U.jpg" },
-    { id: 100, title: "Frankie", poster: "/z.jpg" }
-], renderSearch);
+// //sample call - for rendering search
+// fetchOrCreateMovies([
+//     { id: 603, title: "The Matrix", poster: "/hEpWvX6Bp79eLxY1kX5ZZJcme5U.jpg" },
+//     { id: 100, title: "Frankie", poster: "/z.jpg" }
+// ], renderSearch);
