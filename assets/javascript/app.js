@@ -162,9 +162,13 @@ async function upVoteEmotion(movieId, emotion) {
 
     //https://firebase.google.com/docs/reference/js/firebase.database.Reference#transaction
     let movieNahMoji = fb.ref(`movies/${movieId}/emotions`);
-
     let tx = await movieNahMoji.child(emotion).child("count").transaction(function (count) {
         return (count || 0) + 1;
+    });
+
+    let movieRef = fb.ref(`movies/${movieId}`);
+    let txTotal = movieRef.child("totalEmotions").transaction(function(total){
+        return (total || 0) + 1;
     });
 
     let NahMojis = await movieNahMoji.once('value').then(
@@ -180,9 +184,13 @@ async function upVoteShouldHaves(movieId, shouldHave) {
    
     //https://firebase.google.com/docs/reference/js/firebase.database.Reference#transaction
     let movieShouldHaves = fb.ref(`movies/${movieId}/shouldHaves`);
-
     let tx = await movieShouldHaves.child(shouldHave).child("count").transaction(function (count) {
         return (count || 0) + 1;
+    });
+
+    let movieRef = fb.ref(`movies/${movieId}`);
+    let txtotal = movieRef.child("totalShouldHaves").transaction(function(total){
+        return (total || 0) + 1;
     });
 
     let shouldHaves = await movieShouldHaves.once('value').then(
@@ -241,7 +249,7 @@ renderPreviews();
 
 // upVoteEmotion(603, "Angry").then(renderNahMojiChart)
 
-// upVoteShouldHaves(603, "Take a nap").then(renderShouldHavesChart);
+upVoteShouldHaves(603, "Take a nap").then(renderShouldHavesChart);
 
 // //sample call - for rendering search
 // fetchOrCreateMovies([
