@@ -167,7 +167,7 @@ async function upVoteEmotion(movieId, emotion) {
     });
 
     let movieRef = fb.ref(`movies/${movieId}`);
-    let txTotal = movieRef.child("totalEmotions").transaction(function(total){
+    let txTotal = movieRef.child("totalEmotions").transaction(function (total) {
         return (total || 0) + 1;
     });
 
@@ -181,7 +181,7 @@ async function upVoteEmotion(movieId, emotion) {
 }
 
 async function upVoteShouldHaves(movieId, shouldHave) {
-   
+
     //https://firebase.google.com/docs/reference/js/firebase.database.Reference#transaction
     let movieShouldHaves = fb.ref(`movies/${movieId}/shouldHaves`);
     let tx = await movieShouldHaves.child(shouldHave).child("count").transaction(function (count) {
@@ -189,7 +189,7 @@ async function upVoteShouldHaves(movieId, shouldHave) {
     });
 
     let movieRef = fb.ref(`movies/${movieId}`);
-    let txtotal = movieRef.child("totalShouldHaves").transaction(function(total){
+    let txtotal = movieRef.child("totalShouldHaves").transaction(function (total) {
         return (total || 0) + 1;
     });
 
@@ -212,6 +212,27 @@ function renderShouldHavesChart(shouldHaves) {
     console.log(shouldHaves);
 }
 
+function searchMovie(movie) {
+    const apiKey = "ce1c7db1d5a1e3d2ac7aba7563b687cf";
+    movie = encodeURIComponent(movie);
+    var settings = {
+        "async": true,
+        "crossDomain": true,
+        "url": `https://api.themoviedb.org/3/search/movie?include_adult=false&page=1&query=${movie}&language=en-US&api_key=${apiKey}`,
+        "method": "GET",
+        "headers": {},
+        "data": "{}"
+    }
+
+    $.ajax(settings).done(function (response) {
+
+        console.log(response.results);
+
+        //iterate over each "result"
+        //create an array of objects of:  {id:int, title:string, path:string}
+        //call the function fetchOrCreateMovies; pass an array of movies and the 'renderSearch' function
+    });
+}
 
 
 
@@ -238,7 +259,7 @@ const lifeWasters = $("#lifeWasters");
 
 const MOVIE_DB_IMG_URL = "https://image.tmdb.org/t/p/w185";
 
-google.charts.load('current', {packages: ['corechart']});
+google.charts.load('current', { packages: ['corechart'] });
 // google.charts.setOnLoadCallback(drawChart);
 
 cacheEmotions();
@@ -249,7 +270,7 @@ renderPreviews();
 
 // upVoteEmotion(603, "Angry").then(renderNahMojiChart)
 
-upVoteShouldHaves(603, "Take a nap").then(renderShouldHavesChart);
+// upVoteShouldHaves(603, "Take a nap").then(renderShouldHavesChart);
 
 // //sample call - for rendering search
 // fetchOrCreateMovies([
