@@ -32,14 +32,13 @@ function getNewMovie(movie) {
 }
 
 function renderPreviews() {
-
     moviesRef.orderByChild("totalEmotions").limitToLast(3).once("value", function (s) {
 
         /*
              TO DO:  Need to get a single div on the page that we can clear out
              then populate with previews.
         */
-        $("#lifeWasters").empty();
+        $(lifeWasters).empty();
 
         s.forEach(child => {
             let preview = {
@@ -56,7 +55,6 @@ function renderPreviews() {
 }
 
 function renderPreview(preview) {
-
     let posterDiv = $('<div>', {
         class: "poster",
         "data-id": preview.id
@@ -82,7 +80,7 @@ function renderPreview(preview) {
         "data-description": topNahMoji.emotion.description
     }));
 
-    let movieDiv = $('<div>', { class: "movie" });
+    let movieDiv = $('<div>', { class: "col-sm-4 moviePreview" });
     $(movieDiv).append(posterDiv);
     $(movieDiv).append(nahMojiDiv);
     $(lifeWasters).append(movieDiv);
@@ -177,6 +175,10 @@ async function upVoteEmotion(movieId, emotion) {
         }
     );
 
+    for(let NahMoji in NahMojis){
+        // debugger;
+    }
+
     return NahMojis;
 }
 
@@ -252,6 +254,7 @@ function searchMovie(movie) {
 document.getElementById("goBtn").addEventListener("click", function(){
     var movie = $("#movie-input").val();
 
+
 });
 
 var config = {
@@ -273,7 +276,7 @@ var comments;
 const mojiRoot = "./assets/images/";
 
 const moviesRef = fb.ref("movies");
-const lifeWasters = $("#lifeWasters");
+const lifeWasters = $("#previews");
 
 const MOVIE_DB_IMG_URL = "https://image.tmdb.org/t/p/w185";
 
@@ -282,11 +285,13 @@ google.charts.load('current', { packages: ['corechart'] });
 
 cacheEmotions();
 cacheShouldHaves();
-
 renderPreviews();
 
 
-// upVoteEmotion(603, "Angry").then(renderNahMojiChart)
+// upVoteEmotion(603, "Sad").then(function(r){
+
+//     console.log(r);
+// })
 
 // upVoteShouldHaves(603, "Take a nap").then(renderShouldHavesChart);
 
