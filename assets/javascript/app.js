@@ -226,14 +226,27 @@ function searchMovie(movie) {
 
     $.ajax(settings).done(function (response) {
 
-        console.log(response.results);
+        // console.log(response.results);
+        var res = response.results;
+        var resMax = res.length;
+        if (res.length > 10) {
+            resMax = 10
+        }
+        var foundMovies = [];
+        for (var i = 0; i < resMax; i++) {
+            // console.log(res[i]);
 
-        //iterate over each "result"
-        //create an array of objects of:  {id:int, title:string, path:string}
-        //call the function fetchOrCreateMovies; pass an array of movies and the 'renderSearch' function
+
+            //iterate over each "result"
+            //create an array of objects of:  {id:int, title:string, path:string}
+            var object = { id: res[i].id, title: res[i].title, poster: res[i].poster_path };
+            foundMovies.push(object);
+            //call the function fetchOrCreateMovies; pass an array of movies and the 'renderSearch' function
+
+        }
+        fetchOrCreateMovies(foundMovies,renderSearch);
     });
 }
-
 
 
 var config = {
