@@ -6,30 +6,44 @@
 
     <title>Page Title</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    
-    <!-- Stylesheets -->
-    <!-- Bootstrap CSS Needed -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" media="screen" href="./assets/css/reset.css"/>
     <link rel="stylesheet" type="text/css" media="screen" href="./assets/css/styles.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 </head>
 <body>
-    <div class="jumbotron jumbotron-fluid netTheme">
-        <div class="container">
-          <img class="img" src="./assets/images/nahflix-logo-shadow.png" alt="NahFlixLogo" style="width: 50%; height: 50%;">
-          <p class="lead" style="text-align: center">Insert Search Bar Here</p>
+<div class="row">
+<div class="container-fluid bg-1 text-center">
+    
+            <div class="container">
+              <img src="./assets/images/nahflix-logo.png" alt="NahFlixLogo" style="width: 60%; height: 60%">
+              <p>Know When to Say Nah.</p>
+              <p class="lead" style="text-align: center">
+                    <div class="input-group">
+                            <input type="text" class="form-control" id="searchEngine" placeholder="Search for...">
+                            <span class="input-group-btn">
+                              <button class="btn btn-default" id="searchBtn" type="button">Go!</button>
+                            </span>
+                          </div><!-- /input-group -->
+                        </div><!-- /.col-lg-6 -->
+              </p>
+            </div>
+          
         </div>
-      </div>
+    </div>
 
 
 
+<div class="row">
 
-
-
-
-    <!-- Javascript Files Here:  Very Bottom of the Page-->
-    <script src="./assets/javascript/app.js"></script>
+    <div class="container-fluid bg-3 text-center" id="lifeWasters">
+        <div class="lifeWasters"><h3>Other Life Wasters</h3></div>
+        <div class="movie1" id="movie1">movie One</div>
+    </div>
+              
+</div>
 </body>
 </html>

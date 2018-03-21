@@ -1,0 +1,26 @@
+{
+    "emotions":{
+        "Indifferent":{ "description":"(Haughty, Impervious, Unresponsive, Apathetic)", "img":"nahmojiIndifferent.png", "count":0},
+        "Bored":{ "description":"(Fatigued, Disinterested, Spiritless)", "img":"nahmojiBored.png", "count":0},
+        "Averse":{ "description":"(loathsome, Hostile, Illdisposed, Allergic, Perverse)", "img":"nahmojiAverse.png", "count":0},
+        "Disgusted":{ "description":"(Appalled*, Nauseated, Abhorred, Scandalized, Repulsed)", "img":"nahmojiDisgusted.png", "count":0},
+        "Unnerved":{ "description":"(Panicky)", "img":"nahmojiUnnerved.png", "count":0},
+        "Chickenhearted":{ "description":"(Fearful, Lily-livered, perturbed, Aghast)", "img":"nahmojiChickenhearted.png", "count":0},
+        "Anxious":{ "description":"(Shot to pieces, Shook up, In a tizzy, Troubled)", "img":"Anxious", "count":0},
+        "Dreadful":{ "description":"(Atrocious, Grievous, Shameful)", "img":"nahmojiDreadful.png", "count":0},
+        "Exasperated":{ "description":"(Enraged, Bitter, Resentful, Sullen, Angry)", "img":"nahmojiExasperated.png", "count":0},
+        "Afflicted":{ "description":"(Sorrowful, Sick at heart)", "img":"Afflicted", "count":0},
+        "Defeated":{ "description":"(foiled, Frustrated, Irked)", "img":"nahmojiDefeated.png", "count":0},
+        "Disappointed":{ "description":"(Disgruntled, Dissatisfied, Vanquished)", "img":"nahmojiDissappointed.png", "count":0},
+        "Agitated":{ "description":"(Restless, Unsettled, Disturbed)", "img":"nahmojiAgitated.png", "count":0},
+        "Bothered":{ "description":"(Worried, Frightened, Perturbed)", "img":"nahmojiBothered.png", "count":0},
+        "Ashamed":{ "description":"(Distraught, Repentent)", "img":"nahmojiAshamed.png", "count":0},
+        "Anguished":{ "description":"(Despair, Discouraged, Miserable)", "img":"nahmojiAnguished.png", "count":0},
+        "Tortured":{ "description":"(Damaged, Contused, Hurt)", "img":"nahmojiTortured.png", "count":0},
+        "Grief-stricken":{ "description":"(Cheerless, Bitter, Sad)", "img":"nahmojiGrief-stricken.png", "count":0},
+        "Shocked": { "description":"(Appalled, Offended, Dismayed)", "img":"nahmojiShocked.png", "count":0},
+        "Molested": { "description":"(Tormented, Vexed, Annoyed, Afflicted)", "img":"nahmojiMolested.png", "count":0},
+        "Thrown": { "description":"(Befuddled. Bewildered, Perplexed, Misled, Unzipped, Confused)", "img":"nahmojiThrown.png", "count":0}
+    }
+}
+
