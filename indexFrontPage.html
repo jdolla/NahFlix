@@ -8,17 +8,15 @@
     <title>Page Title</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-     <link rel="stylesheet" type="text/css" media="screen" href="./assets/css/style.css"/>
+
+    <link rel="stylesheet" type="text/css" media="screen" href="./assets/css/reset.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
-    
-    <link rel="stylesheet" type="text/css" media="screen" href="./assets/css/reset.css"/>
 
+    <link rel="stylesheet" type="text/css" media="screen" href="./assets/css/style.css" />
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-   
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 </head>
@@ -51,107 +49,121 @@
 
         <div class="container-fluid bg-3 text-center" id="lifeWasters">
             <div class="lifeWasters">
-               <h1>Popular Life Wasters</h1> 
+                <h1>Popular Life Wasters</h1>
             </div>
-            <div class="lifeWasters" id="previews"></div>
+            <div class="lifeWasters" id="previews">
+                <div class="col-sm-4 moviePreview"></div>
+                <div class="col-sm-4 moviePreview"></div>
+                <div class="col-sm-4 moviePreview"></div>
+            </div>
 
         </div>
+    </div>
+    <div class="container-fluid bg-3 text-center" id="searchResults">
+        <div class="results" id="results">Results</div>
+        <div class="resultsDisplay" id="resultsDisplay"></div>
+    </div>
 
-        <div class="container-fluid bg-3 text-center" id="searchResults">
-            <div class="results" id="results">Results</div>
-            <div class="resultsDisplay" id="resultsDisplay"></div>
-        </div>
 
+    <div class="container-fluid">
 
-        <div class="container-fluid">
+        <div class="container">
+            <div class="col-sm-12 col-xs-12">
+                <div class="panel panel-default text-center block-center">
+                    <div class="panel-heading" id="movieHeading">
+                        <h1>Movie</h1>
+                    </div>
 
-            <div class="container">
-                <div class="col-sm-12 col-xs-12">
-                    <div class="panel panel-default text-center block-center" >
-                        <div class="panel-heading" id="movieHeading">
-                            <h1>Movie</h1>
-                        </div>
-
-                        <div class="panel-body" id="movieBody">
-                            <p>
-                                <div id="movieTitle">Movie Title div</div>
-                                <div id="moviePoster">Movie Poster div</div>
-                            </p>
-                        </div>
+                    <div class="panel-body" id="movieBody">
+                        <p>
+                            <div id="movieTitle">Movie Title div</div>
+                            <div id="moviePoster">Movie Poster div</div>
+                        </p>
                     </div>
                 </div>
-                <div class="col-sm-12 col-xs-12">
-                    <div class="panel panel-default text-center" >
-                        <div class="panel-heading" id="emojiHeading">
-                            <h1>Top Emojii</h1>
-                        </div>
+            </div>
+            <div class="col-sm-12 col-xs-12">
+                <div class="panel panel-default text-center">
+                    <div class="panel-heading" id="emojiHeading">
+                        <h1>Top Emojii</h1>
+                    </div>
 
-                        <div class="panel-body" id="emojiBody">
-                            <p>
-                                <div id="emojiImg">Emoji div</div>
-                            </p>
-                        </div>
+                    <div class="panel-body" id="emojiBody">
+                        <p>
+                            <div id="emojiImg">Emoji div</div>
+                        </p>
                     </div>
                 </div>
-                <div class="col-sm-12 col-xs-12">
-                    <div class="panel panel-default text-center">
-                        <div class="panel-heading" id="feelHeading">
-                            <h1>How It Made Me Feel</h1>
-                        </div>
+            </div>
+            <div class="col-sm-12 col-xs-12">
+                <div class="panel panel-default text-center">
+                    <div class="panel-heading" id="feelHeading">
+                        <h1>How It Made Me Feel</h1>
+                    </div>
 
-                        <div class="panel-body" id="feelBody">
-                            <p>
-                                <div id="graphImg">Graph Display Div</div>
-                            </p>
-                        </div>
+                    <div class="panel-body" id="feelBody">
+                        <p>
+                            <div class="row">
+                                <div class="col-xs-6 col-sm-3 emoji-Btn ">.col-xs-6 .col-sm-3</div>
+                                <div class="col-xs-6 col-sm-3 emoji-Btn">.col-xs-6 .col-sm-3</div>
+
+                                <!-- Add the extra clearfix for only the required viewport -->
+                                <div class="clearfix visible-xs-block"></div>
+
+                                <div class="col-xs-6 col-sm-3 emoji-Btn">.col-xs-6 .col-sm-3</div>
+                                <div class="col-xs-6 col-sm-3 emoji-Btn">.col-xs-6 .col-sm-3</div>
+                            </div>
+                            <div id="imageResults">Image Results</div>
+                        </p>
                     </div>
                 </div>
-                <div class="col-sm-12 col-xs-12">
-                    <div class="panel panel-default text-center">
-                        <div class="panel-heading" id="ratherHeading">
-                            <h1>I Would Rather Have ...</h1>
-                        </div>
+            </div>
+            <div class="col-sm-12 col-xs-12">
+                <div class="panel panel-default text-center">
+                    <div class="panel-heading" id="ratherHeading">
+                        <h1>I Would Rather Have ...</h1>
+                    </div>
 
-                        <div class="panel-body" id="ratherBody">
-                            <p>
-                                <div id="ratherImg">Would Rather Div</div>
-                                <div>blank div</div>
-                            </p>
-                        </div>
+                    <div class="panel-body" id="ratherBody">
+                        <p>
+                            <div id="ratherImg">Would Rather Div</div>
+                            <div>blank div</div>
+                        </p>
                     </div>
                 </div>
-                <div class="col-sm-12 col-xs-12">
-                    <div class="panel panel-default ">
-                        <div class="panel-heading" id="commentsHeading">
-                            <h1>Comments</h1>
-                        </div>
+            </div>
+            <div class="col-sm-12 col-xs-12">
+                <div class="panel panel-default ">
+                    <div class="panel-heading" id="commentsHeading">
+                        <h1>Comments</h1>
+                    </div>
 
-                        <div class="panel-body" id="commentsBody">
-                            <p>
-                                Most Recent
-                                <div id="commentsDisplay"></div>
-                                <form>
-                                    <div class="form-group">
+                    <div class="panel-body" id="commentsBody">
+                        <p>
+                            Most Recent
+                            <div id="commentsDisplay"></div>
+                            <form>
+                                <div class="form-group">
 
-                                        <textarea class="form-control" rows="5" id="comment" placeholder="Add Comment"></textarea>
+                                    <textarea class="form-control" rows="5" id="comment" placeholder="Add Comment"></textarea>
 
-                                        <button class="btn btn-default primary" id="submitBtn" type="button">Submit</button>
+                                    <button class="btn btn-default primary" id="submitBtn" type="button">Submit</button>
 
-                                    </div>
-                                </form>
+                                </div>
+                            </form>
 
-                            </p>
+                        </p>
 
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-         
-</div>
+    </div>
 
-    <script src="https://www.gstatic.com/firebasejs/4.11.0/firebase.js"></script> 
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/4.11.0/firebase.js"></script>
     <script src="./assets/javascript/app.js"></script>
 
 </body>
