@@ -84,7 +84,6 @@ function renderPreview(preview) {
     $(movieDiv).append(posterDiv);
     $(movieDiv).append(nahMojiDiv);
     $(lifeWasters).append(movieDiv);
-    debugger;
 }
 
 function fetchOrCreateMovies(movies, action) {
@@ -266,7 +265,6 @@ google.charts.load('current', { packages: ['corechart'] });
 
 cacheEmotions();
 cacheShouldHaves();
-
 renderPreviews();
 
 
