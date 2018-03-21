@@ -32,7 +32,6 @@ function getNewMovie(movie) {
 }
 
 function renderPreviews() {
-
     moviesRef.orderByChild("totalEmotions").limitToLast(3).once("value", function (s) {
 
         /*
@@ -56,9 +55,8 @@ function renderPreviews() {
 }
 
 function renderPreview(preview) {
-
     let posterDiv = $('<div>', {
-        class: "poster",
+        class: "moviePreview",
         "data-id": preview.id
     });
 
@@ -86,6 +84,7 @@ function renderPreview(preview) {
     $(movieDiv).append(posterDiv);
     $(movieDiv).append(nahMojiDiv);
     $(lifeWasters).append(movieDiv);
+    debugger;
 }
 
 function fetchOrCreateMovies(movies, action) {
@@ -178,7 +177,7 @@ async function upVoteEmotion(movieId, emotion) {
     );
 
     for(let NahMoji in NahMojis){
-        debugger;
+        // debugger;
     }
 
     return NahMojis;
@@ -258,7 +257,7 @@ var comments;
 const mojiRoot = "./assets/images/";
 
 const moviesRef = fb.ref("movies");
-const lifeWasters = $("#lifeWasters");
+const lifeWasters = $("#previews");
 
 const MOVIE_DB_IMG_URL = "https://image.tmdb.org/t/p/w185";
 
@@ -271,10 +270,10 @@ cacheShouldHaves();
 renderPreviews();
 
 
-upVoteEmotion(603, "Sad").then(function(r){
+// upVoteEmotion(603, "Sad").then(function(r){
 
-    console.log(r);
-})
+//     console.log(r);
+// })
 
 // upVoteShouldHaves(603, "Take a nap").then(renderShouldHavesChart);
 
