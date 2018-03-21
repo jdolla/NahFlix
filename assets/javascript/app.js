@@ -175,8 +175,10 @@ async function upVoteEmotion(movieId, emotion) {
         }
     );
 
+    let rows = []
     for(let NahMoji in NahMojis){
-        // debugger;
+        rows.push([NahMojis[NahMoji].emotion, NahMojis[NahMoji].count, NahMojis[NahMoji].description]);
+        debugger;
     }
 
     return NahMojis;
