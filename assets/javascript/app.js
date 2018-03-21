@@ -38,7 +38,7 @@ function renderPreviews() {
              TO DO:  Need to get a single div on the page that we can clear out
              then populate with previews.
         */
-        $("#lifeWasters").empty();
+        $(lifeWasters).empty();
 
         s.forEach(child => {
             let preview = {
@@ -56,7 +56,7 @@ function renderPreviews() {
 
 function renderPreview(preview) {
     let posterDiv = $('<div>', {
-        class: "moviePreview",
+        class: "poster",
         "data-id": preview.id
     });
 
@@ -80,7 +80,7 @@ function renderPreview(preview) {
         "data-description": topNahMoji.emotion.description
     }));
 
-    let movieDiv = $('<div>', { class: "movie" });
+    let movieDiv = $('<div>', { class: "col-sm-4 moviePreview" });
     $(movieDiv).append(posterDiv);
     $(movieDiv).append(nahMojiDiv);
     $(lifeWasters).append(movieDiv);
