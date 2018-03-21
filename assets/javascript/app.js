@@ -251,11 +251,15 @@ function searchMovie(movie) {
 }
 
 //event listner for the Go button
-document.getElementById("goBtn").addEventListener("click", function(){
-    var movie = $("#movie-input").val();
+document.getElementById("searchBtn").addEventListener("click", function(event){
+    var movie = $("#searchEngine").val(); // Get the IDsZ
+
 
 
 });
+
+
+
 
 var config = {
     apiKey: "AIzaSyC1lgIwwL6TZ3FvR-t_XjP63cgnx-s_T7E",
