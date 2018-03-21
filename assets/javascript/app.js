@@ -177,6 +177,10 @@ async function upVoteEmotion(movieId, emotion) {
         }
     );
 
+    for(let NahMoji in NahMojis){
+        debugger;
+    }
+
     return NahMojis;
 }
 
@@ -235,7 +239,6 @@ function searchMovie(movie) {
 }
 
 
-
 var config = {
     apiKey: "AIzaSyC1lgIwwL6TZ3FvR-t_XjP63cgnx-s_T7E",
     authDomain: "nahflix.firebaseapp.com",
@@ -268,7 +271,10 @@ cacheShouldHaves();
 renderPreviews();
 
 
-// upVoteEmotion(603, "Angry").then(renderNahMojiChart)
+upVoteEmotion(603, "Sad").then(function(r){
+
+    console.log(r);
+})
 
 // upVoteShouldHaves(603, "Take a nap").then(renderShouldHavesChart);
 

@@ -18,17 +18,17 @@
         // draws it.
         function drawChart() {
 
-            // Create the data table.
-            var data = new google.visualization.DataTable();
-            data.addColumn('string', 'Topping');
-            data.addColumn('number', 'Slices');
-            data.addRows([
-                ['Mushrooms', 3],
-                ['Onions', 1],
-                ['Olives', 1],
-                ['Zucchini', 1],
-                ['Pepperoni', 2]
-            ]);
+           var dataTable = new google.visualization.DataTable();
+        dataTable.addColumn('string', 'Topping');
+        dataTable.addColumn('number', 'Slices');
+        // A column for custom tooltip content
+        dataTable.addColumn({type: 'string', role: 'tooltip'});
+        dataTable.addRows([
+          ['Stuff', 600,'$600K in our first year!'],
+          ['Shrroms', 1500, 'Sunspot activity made this our best year ever!'],
+          ['sauce', 800, '$800K in 2012.'],
+          ['yummy', 1000, '$1M in sales last year.']
+        ]);
 
             // Set chart options
             var options = {
@@ -39,7 +39,8 @@
 
             // Instantiate and draw our chart, passing in some options.
             var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-            chart.draw(data, options);
+            // chart.draw(data);
+            chart.draw(dataTable, options);
         }
 
         function drawChart2() {
@@ -67,6 +68,7 @@
             var chart = new google.visualization.PieChart(document.getElementById('chart_div2'));
             chart.draw(data, options);
         }
+
 
 
 
