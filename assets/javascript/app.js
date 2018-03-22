@@ -124,11 +124,55 @@ function fetchOrCreateMovies(movies, action) {
 }
 
 function renderSearch(movies) {
-    //should be used to render the search results
-    //takes an array of movies.
-    // {id:int, movie:object}
-    // can be passed to 'fetchOrCreateMovies' as the 'action'
-    console.log(movies);
+    console.log(movies);    // remove later.  look at console to make sure list is there.
+    
+    //Loop through all the movies
+    for (let i = 0; i < movies.length; i++){
+        let movie = movies[i]; //get the movie at position [i] in the array.
+        
+        //(1) Create variables for id, title, poster
+        //(2) Set the value of the variable to the same property from the movie.
+        console.log(movie.id)
+        console.log(movie.movie.title);
+        console.log(movie.movie.poster);
+
+        //this gets the list of emotions for the movie.
+        //this is an object that has one property for every emotion
+        let emotions = movie.movie.emotions;
+
+        //this gets the emotion with the most "votes"
+        let mostCountedEmotion = mostCountedNahMoji(emotions);
+
+        console.log(mostCountedEmotion); //check console for what this looks like.
+
+
+        //(3) Create variables for the following: emotionName, emotionImage, emotionDescription
+        //(4) Set the value of the variable to the same property from the movie.
+        console.log(mostCountedEmotion.name);
+        console.log(mostCountedEmotion.emotion.img);
+        console.log(mostCountedEmotion.emotion.description);
+
+        //(5) create a variable and assign the lifeWasters div (the ID = lifeWasters)
+        //(6)   use JQuery - it is easier
+        //      Create a div and give it a class of "search-result"
+        //      Also give this class an attribute called "data-movieId" (assign the movie id to this)
+        //(7)   Append to this div another div that contains an H1 tag as well as the movie title
+        //(8)   Append to the search-result div an img tag that has a src = the poster
+        //(9)   Append to the search-result div an img tag that has a src = emotionImage
+
+        //(10)  Append this to the "resultsDisplay" div
+        
+        
+    }
+    
+    //(11)   in the html file there is a div that has an ID of:  lifeWasters
+    //      Hide this div.
+    //      http://api.jquery.com/hide/
+
+    //(12)   in the html file there is a div that has an ID of: resultsDisplay
+    //      Show this div (this is where all the search results will go)
+    //      http://api.jquery.com/show/
+    
 }
 
 function mostCountedNahMoji(emotions) {
@@ -254,9 +298,9 @@ function searchMovie(movie) {
 
 //event listner for the Go button
 document.getElementById("searchBtn").addEventListener("click", function(event){
-    var movie = $("#searchEngine").val(); // Get the IDsZ
-
-
+    var movie = $("#searchEngine").val().trim(); //Added trim to remove trailing spaces
+    
+    searchMovie(movie); // Call function to search for movies.
 
 });
 
