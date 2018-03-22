@@ -124,7 +124,7 @@ function fetchOrCreateMovies(movies, action) {
 }
 
 function renderSearch(movies) {
-    console.log(movies);    // remove later.  look at console to make sure list is there.
+    // console.log(movies);    // remove later.  look at console to make sure list is there.
 
 
 
@@ -308,7 +308,6 @@ function searchMovie(movie) {
 
     $.ajax(settings).done(function (response) {
 
-        // console.log(response.results);
         var res = response.results;
         var resMax = res.length;
         if (res.length > 10) {
@@ -316,8 +315,6 @@ function searchMovie(movie) {
         }
         var foundMovies = [];
         for (var i = 0; i < resMax; i++) {
-            // console.log(res[i]);
-
 
             //iterate over each "result"
             //create an array of objects of:  {id:int, title:string, path:string}
@@ -363,9 +360,10 @@ function renderMovie(movieId) {
         $("#movieTitle").html($("<h3>").text(movie.movie.title));
 
         $("#moviePoster").html($('<img>', {
-            class: "poster-pic",
+            class: "sel-poster-pic",
             src: MOVIE_DB_IMG_URL + movie.movie.poster,
-            alt: `Movie poster for ${movie.movie.title}`
+            alt: `Movie poster for ${movie.movie.title}`,
+            "data-id": movie.id
         }));
 
         let emotions = movie.movie.emotions;
@@ -379,8 +377,6 @@ function renderMovie(movieId) {
         let shouldHave = mostcountedShouldHave(shouldHaves);
         $("#mostPopularRather").html(`<h3>${shouldHave.name}</h3>`);
         
-
-
         let comments = getSortedCommentsArray(movie.movie.comments);
         $("#commentsDisplay").html("");
         for(let i = 0; i < comments.length; i ++){
@@ -398,6 +394,26 @@ function renderMovie(movieId) {
     });
 
 }
+
+function logNewComment(movieId, comment){
+    let timestamp = moment().unix();
+    let newComment = {message: comment, "timestamp": timestamp};
+
+    moviesRef.child(movieId).child("comments").push(newComment);
+    
+    let evenOdd = $("#commentsDisplay > :last-child");
+
+    debugger;
+    let commentDiv = $('<div>', {class: `comment comment-${$(evenOdd).hasClass("comment comment-0") * 1}`});
+    $(commentDiv).append($('<div>', {class: "comment-message"}).text(comment));
+
+    let commentTimestamp = moment.unix(timestamp).format("MM/DD/YYYY HH:mm:ss");
+    $(commentDiv).append($('<div>', {class: "comment-timestamp"}).text(commentTimestamp));
+    $("#commentsDisplay").append(commentDiv);
+
+}
+
+
 
 
 /************************************************************************************** */
@@ -449,6 +465,11 @@ $("#lifeWasters").on("click", ".moviePreview > .poster", function (event) {
     renderMovie($(this).attr("data-id"));
 });
 
+$("#submitBtn").on("click", function(event){
+    newComment = $("#comment").val().trim();
+    movieId = $("#moviePoster > .sel-poster-pic").attr("data-id");
+    logNewComment(movieId, newComment);
+})
 
 
 // upVoteEmotion(603, "Sad").then(function(r){
