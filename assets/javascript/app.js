@@ -125,7 +125,17 @@ function fetchOrCreateMovies(movies, action) {
 
 function renderSearch(movies) {
     console.log(movies);    // remove later.  look at console to make sure list is there.
+   
     
+
+
+    //(11)   in the html file there is a div that has an ID of:  lifeWasters
+    //      Hide this div.
+    //      http://api.jquery.com/hide/
+
+
+    //(12) Set the html() to an empty string for the resultsDisplay Div
+
     //Loop through all the movies
     for (let i = 0; i < movies.length; i++){
         let movie = movies[i]; //get the movie at position [i] in the array.
@@ -165,9 +175,7 @@ function renderSearch(movies) {
         
     }
     
-    //(11)   in the html file there is a div that has an ID of:  lifeWasters
-    //      Hide this div.
-    //      http://api.jquery.com/hide/
+
 
     //(12)   in the html file there is a div that has an ID of: resultsDisplay
     //      Show this div (this is where all the search results will go)
