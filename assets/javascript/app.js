@@ -2,7 +2,7 @@ function cacheEmotions() {
     //fetches all the template emotions from firebase
     const eRef = fb.ref("emotions");
     eRef.once("value", function (s) {
-        emotions = s.toJSON();
+        TMPL_EMOTIONS = s.toJSON();
     });
 }
 
@@ -10,7 +10,7 @@ function cacheShouldHaves() {
     //fetches all the template emotions from firebase
     const sRef = fb.ref("shouldHaves");
     sRef.once("value", function (s) {
-        shouldHaves = s.toJSON();
+        TMPL_SHOULD_HAVES = s.toJSON();
     });
 }
 
@@ -19,11 +19,11 @@ function getNewMovie(movie) {
     let newMovie = {
         "title": `${movie.title}`,
         "poster": `${movie.poster}`,
-        "emotions": emotions,
+        "emotions": TMPL_EMOTIONS,
         "totalEmotions": 0,
-        "shouldHaves": shouldHaves,
+        "shouldHaves": TMPL_SHOULD_HAVES,
         "totalShouldHaves": 0,
-        "comments": [{ "message": "Be the first!", "timestamp": firebase.database.ServerValue.TIMESTAMP }]
+        "comments": [{ "message": "Be the first!", "timestamp": moment().unix() }]
     };
 
     moviesRef.child(movie.id).set(newMovie);
@@ -125,8 +125,8 @@ function fetchOrCreateMovies(movies, action) {
 
 function renderSearch(movies) {
     console.log(movies);    // remove later.  look at console to make sure list is there.
-   
-    
+
+
 
 
     //(11)   in the html file there is a div that has an ID of:  lifeWasters
@@ -137,9 +137,9 @@ function renderSearch(movies) {
     //(12) Set the html() to an empty string for the resultsDisplay Div
 
     //Loop through all the movies
-    for (let i = 0; i < movies.length; i++){
+    for (let i = 0; i < movies.length; i++) {
         let movie = movies[i]; //get the movie at position [i] in the array.
-        
+
         //(1) Create variables for id, title, poster
         //(2) Set the value of the variable to the same property from the movie.
         console.log(movie.id)
@@ -171,16 +171,16 @@ function renderSearch(movies) {
         //(9)   Append to the search-result div an img tag that has a src = emotionImage
 
         //(10)  Append this to the "resultsDisplay" div
-        
-        
+
+
     }
-    
+
 
 
     //(12)   in the html file there is a div that has an ID of: resultsDisplay
     //      Show this div (this is where all the search results will go)
     //      http://api.jquery.com/show/
-    
+
 }
 
 function mostCountedNahMoji(emotions) {
@@ -201,11 +201,37 @@ function mostCountedNahMoji(emotions) {
             "name": "Nah this flick?",
             "emotion": {
                 "description": "This flick hasn't been rated",
-                "img": "nahMoji.jpg"
+                "img": "/nahMoji.jpg",
+                "count": 0
             }
         }
     }
     return topEmotion;
+}
+
+function mostcountedShouldHave(shouldHaves) {
+    let topShouldHave;
+    const shouldHaveKeys = Object.keys(shouldHaves);
+    for (let i = 0; i < shouldHaveKeys.length; i++) {
+        const shouldHave = shouldHaves[shouldHaveKeys[i]];
+        if (!topShouldHave || topShouldHave["shouldHave"].count < shouldHave.count) {
+            topShouldHave = {
+                "name": shouldHaveKeys[i],
+                "shouldHave": shouldHave
+            }
+        }
+    }
+
+    if (topShouldHave.shouldHave.count === 0) {
+        return {
+            "name": "Better waste of time?",
+            "shouldHave": {
+                "description": "Better waste of time?",
+                "count": 0
+            }
+        }
+    }
+    return topShouldHave;
 }
 
 async function upVoteEmotion(movieId, emotion) {
@@ -228,7 +254,7 @@ async function upVoteEmotion(movieId, emotion) {
     );
 
     let rows = []
-    for(let NahMoji in NahMojis){
+    for (let NahMoji in NahMojis) {
         rows.push([NahMojis[NahMoji].emotion, NahMojis[NahMoji].count, NahMojis[NahMoji].description]);
         debugger;
     }
@@ -300,20 +326,81 @@ function searchMovie(movie) {
             //call the function fetchOrCreateMovies; pass an array of movies and the 'renderSearch' function
 
         }
-        fetchOrCreateMovies(foundMovies,renderSearch);
+        fetchOrCreateMovies(foundMovies, renderSearch);
     });
 }
 
-//event listner for the Go button
-document.getElementById("searchBtn").addEventListener("click", function(event){
-    var movie = $("#searchEngine").val().trim(); //Added trim to remove trailing spaces
+async function getMovieById(id) {
+    let movie = moviesRef.child(id).once('value').then(
+        function (snap) {
+            let movie = {
+                id: snap.key,
+                movie: snap.toJSON()
+            }
+            return movie;
+        });
     
-    searchMovie(movie); // Call function to search for movies.
+    return await movie;
+}
 
-});
+function getSortedCommentsArray(comments){
+    let keys = Object.keys(comments);
+    let commentsArray = [];
+    for(let i = 0; i < keys.length; i++){
+        commentsArray.push(comments[keys[i]]);
+    }
+
+    //sorts ascending by tiestamp
+    return commentsArray.sort(function(a, b){
+        return a.timestamp - b.timestamp;
+    });
+};
+
+function renderMovie(movieId) {
+
+    getMovieById(movieId).then(function(movie){
+
+        $("#movieTitle").html($("<h3>").text(movie.movie.title));
+
+        $("#moviePoster").html($('<img>', {
+            class: "poster-pic",
+            src: MOVIE_DB_IMG_URL + movie.movie.poster,
+            alt: `Movie poster for ${movie.movie.title}`
+        }));
+
+        let emotions = movie.movie.emotions;
+        let emotion = mostCountedNahMoji(emotions);
+        $("#emojiImg").html($('<img>', {
+            class: "emojii-pic",
+            src: IMG_BASE + emotion.emotion.img
+        }))
+
+        let shouldHaves = movie.movie.shouldHaves;
+        let shouldHave = mostcountedShouldHave(shouldHaves);
+        $("#mostPopularRather").html(`<h3>${shouldHave.name}</h3>`);
+        
 
 
+        let comments = getSortedCommentsArray(movie.movie.comments);
+        $("#commentsDisplay").html("");
+        for(let i = 0; i < comments.length; i ++){
+            let commentDiv = $('<div>', {class: `comment comment-${i%2}`});
+            $(commentDiv).append($('<div>', {class: "comment-message"}).text(comments[i].message));
 
+            let commentTimestamp = moment.unix(comments[i].timestamp).format("MM/DD/YYYY HH:mm:ss");
+            $(commentDiv).append($('<div>', {class: "comment-timestamp"}).text(commentTimestamp));
+            $("#commentsDisplay").append(commentDiv);
+        }
+
+        $("#lifeWasters").parent().hide();
+        $(searchResults).parent().hide();
+        $(movieDetails).show();
+    });
+
+}
+
+
+/************************************************************************************** */
 
 var config = {
     apiKey: "AIzaSyC1lgIwwL6TZ3FvR-t_XjP63cgnx-s_T7E",
@@ -327,23 +414,41 @@ var config = {
 firebase.initializeApp(config);
 fb = firebase.database();
 
-var emotions;
-var shouldHaves;
+google.charts.load('current', { packages: ['corechart'] });
+
+var TMPL_EMOTIONS;
+var TMPL_SHOULD_HAVES;
 var comments;
 
 const mojiRoot = "./assets/images/";
 
 const moviesRef = fb.ref("movies");
 const lifeWasters = $("#previews");
+const movieDetails = $("#movieDetails");
+const searchResults = $("#results");
+
 
 const MOVIE_DB_IMG_URL = "https://image.tmdb.org/t/p/w185";
+const IMG_BASE = "./assets/images";
 
-google.charts.load('current', { packages: ['corechart'] });
 // google.charts.setOnLoadCallback(drawChart);
 
 cacheEmotions();
 cacheShouldHaves();
 renderPreviews();
+
+
+//event listner for the Go button
+document.getElementById("searchBtn").addEventListener("click", function (event) {
+    var movie = $("#searchEngine").val().trim(); //Added trim to remove trailing spaces
+    searchMovie(movie); // Call function to search for movies.
+});
+
+
+$("#lifeWasters").on("click", ".moviePreview > .poster", function (event) {
+    renderMovie($(this).attr("data-id"));
+});
+
 
 
 // upVoteEmotion(603, "Sad").then(function(r){
