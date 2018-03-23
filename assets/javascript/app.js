@@ -253,6 +253,7 @@ async function upVoteEmotion(movieId, emotion) {
         }
     );
 
+    debugger;
     let rows = []
     for (let NahMoji in NahMojis) {
         rows.push([NahMojis[NahMoji].emotion, NahMojis[NahMoji].count, NahMojis[NahMoji].description]);
@@ -336,26 +337,26 @@ async function getMovieById(id) {
             }
             return movie;
         });
-    
+
     return await movie;
 }
 
-function getSortedCommentsArray(comments){
+function getSortedCommentsArray(comments) {
     let keys = Object.keys(comments);
     let commentsArray = [];
-    for(let i = 0; i < keys.length; i++){
+    for (let i = 0; i < keys.length; i++) {
         commentsArray.push(comments[keys[i]]);
     }
 
     //sorts ascending by tiestamp
-    return commentsArray.sort(function(a, b){
+    return commentsArray.sort(function (a, b) {
         return a.timestamp - b.timestamp;
     });
 };
 
 function renderMovie(movieId) {
 
-    getMovieById(movieId).then(function(movie){
+    getMovieById(movieId).then(function (movie) {
 
         $("#movieTitle").html($("<h3>").text(movie.movie.title));
 
@@ -376,15 +377,15 @@ function renderMovie(movieId) {
         let shouldHaves = movie.movie.shouldHaves;
         let shouldHave = mostcountedShouldHave(shouldHaves);
         $("#mostPopularRather").html(`<h3>${shouldHave.name}</h3>`);
-        
+
         let comments = getSortedCommentsArray(movie.movie.comments);
         $("#commentsDisplay").html("");
-        for(let i = 0; i < comments.length; i ++){
-            let commentDiv = $('<div>', {class: `comment comment-${i%2}`});
-            $(commentDiv).append($('<div>', {class: "comment-message"}).text(comments[i].message));
+        for (let i = 0; i < comments.length; i++) {
+            let commentDiv = $('<div>', { class: `comment comment-${i % 2}` });
+            $(commentDiv).append($('<div>', { class: "comment-message" }).text(comments[i].message));
 
             let commentTimestamp = moment.unix(comments[i].timestamp).format("MM/DD/YYYY HH:mm:ss");
-            $(commentDiv).append($('<div>', {class: "comment-timestamp"}).text(commentTimestamp));
+            $(commentDiv).append($('<div>', { class: "comment-timestamp" }).text(commentTimestamp));
             $("#commentsDisplay").append(commentDiv);
         }
 
@@ -395,20 +396,20 @@ function renderMovie(movieId) {
 
 }
 
-function logNewComment(movieId, comment){
+function logNewComment(movieId, comment) {
     let timestamp = moment().unix();
-    let newComment = {message: comment, "timestamp": timestamp};
+    let newComment = { message: comment, "timestamp": timestamp };
 
     moviesRef.child(movieId).child("comments").push(newComment);
-    
+
     let evenOdd = $("#commentsDisplay > :last-child");
 
     debugger;
-    let commentDiv = $('<div>', {class: `comment comment-${$(evenOdd).hasClass("comment comment-0") * 1}`});
-    $(commentDiv).append($('<div>', {class: "comment-message"}).text(comment));
+    let commentDiv = $('<div>', { class: `comment comment-${$(evenOdd).hasClass("comment comment-0") * 1}` });
+    $(commentDiv).append($('<div>', { class: "comment-message" }).text(comment));
 
     let commentTimestamp = moment.unix(timestamp).format("MM/DD/YYYY HH:mm:ss");
-    $(commentDiv).append($('<div>', {class: "comment-timestamp"}).text(commentTimestamp));
+    $(commentDiv).append($('<div>', { class: "comment-timestamp" }).text(commentTimestamp));
     $("#commentsDisplay").append(commentDiv);
 
 }
@@ -465,12 +466,26 @@ $("#lifeWasters").on("click", ".moviePreview > .poster", function (event) {
     renderMovie($(this).attr("data-id"));
 });
 
-$("#submitBtn").on("click", function(event){
-    newComment = $("#comment").val().trim();
-    movieId = $("#moviePoster > .sel-poster-pic").attr("data-id");
+$("#submitBtn").on("click", function (event) {
+    let newComment = $("#comment").val().trim();
+    let movieId = $("#moviePoster > .sel-poster-pic").attr("data-id");
     logNewComment(movieId, newComment);
 })
 
+
+$(".emoji-Btn").on("click", function (event) {
+    let movieId = $("#moviePoster > .sel-poster-pic").attr("data-name");
+    let emotion = $(this).attr("data-name");
+
+    if (movieId && emotion) {
+        upVoteEmotion(movieId, emotion).then(function (data) {
+            console.log(data);
+        });
+    } else {
+        console.log(`MovieID: ${movieId}`);
+        console.log(`Emotion: ${emotion}`)
+    }
+});
 
 // upVoteEmotion(603, "Sad").then(function(r){
 
