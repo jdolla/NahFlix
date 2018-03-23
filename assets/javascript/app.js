@@ -255,7 +255,7 @@ async function upVoteEmotion(movieId, emotion) {
 
     let rows = []
     for (let NahMoji in NahMojis) {
-        rows.push([NahMojis[NahMoji].emotion, NahMojis[NahMoji].count, NahMojis[NahMoji].description]);
+        rows.push([NahMoji, NahMojis[NahMoji].count, NahMojis[NahMoji].description]);
     }
 
     return rows;
@@ -281,11 +281,6 @@ async function upVoteShouldHaves(movieId, shouldHave) {
     );
 
     return shouldHaves;
-}
-
-function renderNahMojiChart(emotions) {
-    //TODO:  Need to add code to get google chart and plug it in where it belongs.
-    console.log(emotions);
 }
 
 function renderShouldHavesChart(shouldHaves) {
@@ -388,7 +383,7 @@ function renderMovie(movieId) {
         }
 
         $("#lifeWasters").parent().hide();
-        $(searchResults).parent().hide();
+        $(searchResults).parent().parent().hide()
         $(movieDetails).show();
     });
 
@@ -402,7 +397,6 @@ function logNewComment(movieId, comment) {
 
     let evenOdd = $("#commentsDisplay > :last-child");
 
-    debugger;
     let commentDiv = $('<div>', { class: `comment comment-${$(evenOdd).hasClass("comment comment-0") * 1}` });
     $(commentDiv).append($('<div>', { class: "comment-message" }).text(comment));
 
@@ -440,7 +434,7 @@ const mojiRoot = "./assets/images/";
 const moviesRef = fb.ref("movies");
 const lifeWasters = $("#previews");
 const movieDetails = $("#movieDetails");
-const searchResults = $("#results");
+const searchResults = $("#searchResults");
 
 
 const MOVIE_DB_IMG_URL = "https://image.tmdb.org/t/p/w185";
@@ -480,7 +474,26 @@ $(".emoji-Btn").on("click", function (event) {
             data.sort(function(a, b){
                 return a.count - b.count
             });
-            debugger;
+
+            let dataTable = new google.visualization.DataTable();
+            dataTable.addColumn('string', 'Emotion');
+            dataTable.addColumn('number', 'Count');
+            // A column for custom tooltip content
+            dataTable.addColumn({type: 'string', role: 'tooltip'});
+            dataTable.addRows(data);
+
+            // Set chart options
+            let options = {
+                'title': 'How Other Watchers Felt',
+                'width': 400,
+                'height': 300
+            };
+
+console.log(data);
+
+            let imgRes = document.getElementById('imageResults');
+            let chart = new google.visualization.PieChart(imgRes);
+            chart.draw(dataTable, options);
             
             $("#feelBody > .row").hide();
         });
