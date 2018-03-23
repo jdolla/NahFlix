@@ -25,6 +25,11 @@ img {
     background-color: whitesmoke;
     color: #141414;
 }
+#searchResults{
+    background-color:#141414f1;
+    border-color:#141414;
+    color:white; 
+}
 #emojiHeading{
     background-color:#141414f1;
     border-color:#141414;
@@ -55,6 +60,21 @@ img {
     background-color: whitesmoke;
     color: #141414;
 }
+#breatheBtn{
+    background-color: #e50914;
+    border-color: #ff0a16;
+    color:white;
+}
+#paintBtn{
+    background-color: #e50914;
+    border-color: #ff0a16;
+    color:white;
+}
+#napBtn{
+    background-color: #e50914;
+    border-color: #ff0a16;
+    color:white;
+}
 #commentsHeading{
     background-color:#141414f1;
     border-color:#141414;
@@ -69,6 +89,7 @@ img {
     border-color: #ff0a16;
     color:white;
 }
+
 
 
 
