@@ -123,8 +123,10 @@ function fetchOrCreateMovies(movies, action) {
 
 }
 
+
+
 function renderSearch(movies) {
-    // console.log(movies);    // remove later.  look at console to make sure list is there.
+    console.log(movies);    // remove later.  look at console to make sure list is there.
 
 
 
@@ -132,19 +134,26 @@ function renderSearch(movies) {
     //(11)   in the html file there is a div that has an ID of:  lifeWasters
     //      Hide this div.
     //      http://api.jquery.com/hide/
+   
+    $("#lifeWasters").hide();
 
 
     //(12) Set the html() to an empty string for the resultsDisplay Div
-
+   
+    $("#resultsDisplay").empty();
+   
     //Loop through all the movies
     for (let i = 0; i < movies.length; i++) {
         let movie = movies[i]; //get the movie at position [i] in the array.
 
         //(1) Create variables for id, title, poster
+        var id = movie.id;
+        var title = movie.movie.title;
+        var poster = MOVIE_DB_IMG_URL + movie.movie.poster;
         //(2) Set the value of the variable to the same property from the movie.
-        console.log(movie.id)
-        console.log(movie.movie.title);
-        console.log(movie.movie.poster);
+        // console.log(movie.id)
+        // console.log(movie.movie.title);
+        // console.log(movie.movie.poster);
 
         //this gets the list of emotions for the movie.
         //this is an object that has one property for every emotion
@@ -157,31 +166,46 @@ function renderSearch(movies) {
 
 
         //(3) Create variables for the following: emotionName, emotionImage, emotionDescription
+        var emotionName = mostCountedEmotion.name; 
+        var emotionImage = mostCountedEmotion.emotion.img;
+        var emotionDescription = mostCountedEmotion.emotion.description; 
         //(4) Set the value of the variable to the same property from the movie.
-        console.log(mostCountedEmotion.name);
-        console.log(mostCountedEmotion.emotion.img);
-        console.log(mostCountedEmotion.emotion.description);
+        // console.log(mostCountedEmotion.name);
+        // console.log(mostCountedEmotion.emotion.img);
+        // console.log(mostCountedEmotion.emotion.description);
 
         //(5) create a variable and assign the lifeWasters div (the ID = lifeWasters)
+        var wastedItem = $("#lifeWasters");
         //(6)   use JQuery - it is easier
         //      Create a div and give it a class of "search-result"
         //      Also give this class an attribute called "data-movieId" (assign the movie id to this)
+        var searchDiv = $("<div>");
+        $('searchDiv').addClass('search-result') 
+        $(searchDiv).attr("data-movieId", id);
         //(7)   Append to this div another div that contains an H1 tag as well as the movie title
+        $(searchDiv).append($("<h1>").text(title));
         //(8)   Append to the search-result div an img tag that has a src = the poster
+        $(searchDiv).append($("<img>", {src:poster}));
         //(9)   Append to the search-result div an img tag that has a src = emotionImage
-
+        $(searchDiv).append($("<img>", {src:emotionImage}));
         //(10)  Append this to the "resultsDisplay" div
-
+        var resultsDisplay = $("#resultsDisplay")
+        $(resultsDisplay).append(searchDiv)
 
     }
-
 
 
     //(12)   in the html file there is a div that has an ID of: resultsDisplay
     //      Show this div (this is where all the search results will go)
     //      http://api.jquery.com/show/
-
+          $( "resultsDisplay" ).show();
 }
+
+
+
+
+
+
 
 function mostCountedNahMoji(emotions) {
     let topEmotion;
