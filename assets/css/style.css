@@ -42,6 +42,7 @@ img {
 }
 .emoji-Btn{
     background-color:#1414144d;
+    cursor: pointer;
 }
 #feelHeading{
     background-color:#141414f1;
@@ -85,22 +86,18 @@ img {
     background-color: whitesmoke;
     color: #141414;
 }
+
 #submitBtn{
     background-color: #e50914;
     border-color: #ff0a16;
     color:white;
 }
-
-
-
-
-
-
-
-
-
-
-
+.comment-0{
+    background-color: rgba(128, 128, 128, 0.151);
+}
+.comment-1{
+    background-color: rgba(245, 245, 245, 0.445);
+}
 .poster-pic {
     cursor: pointer;
 }
