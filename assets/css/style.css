@@ -2,6 +2,9 @@ body{
     font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;
     background-color: #141414;
 }
+footer{
+    background-color:pinks;
+}
 .container-fluid {
       padding-top: 70px;
       padding-bottom: 70px;
