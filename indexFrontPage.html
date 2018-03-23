@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" media="screen" href="./assets/css/style.css" />
     <link rel="icon" type="image/png" href="./assets/images/nahmojicon-final.png" />
-   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
@@ -127,15 +127,23 @@
                     <div class="panel-body" id="feelBody">
                         <p>
                             <div class="row">
-                                
-                                <div class="col-xs-6 col-sm-3 emoji-Btn" data-name="Agitated" ><img class="img-responsive" src="./assets/images/nahmojis/nahmojiAgitated.png" alt="angry"></div>
-                                <div class="col-xs-6 col-sm-3 emoji-Btn" data-name= "Disgusted"><img class="img-responsive" src="./assets/images/nahmojis/nahmojiDisgusted.png" alt="disgusted"></div>
+
+                                <div class="col-xs-6 col-sm-3 emoji-Btn" data-name="Agitated">
+                                    <img class="img-responsive" src="./assets/images/nahmojis/nahmojiAgitated.png" alt="angry">
+                                </div>
+                                <div class="col-xs-6 col-sm-3 emoji-Btn" data-name="Disgusted">
+                                    <img class="img-responsive" src="./assets/images/nahmojis/nahmojiDisgusted.png" alt="disgusted">
+                                </div>
 
                                 <!-- Add the extra clearfix for only the required viewport -->
                                 <div class="clearfix visible-xs-block"></div>
 
-                                <div class="col-xs-6 col-sm-3 emoji-Btn" data-name="Bored"><img class="img-responsive" src="./assets/images/nahmojis/nahmojiBored.png" alt="bored"></div>
-                                <div class="col-xs-6 col-sm-3 emoji-Btn" data-name="Indifferent"><img class="img-responsive" src="./assets/images/nahmojis/nahmojiIndifferent.png" alt="indifferent"></div>
+                                <div class="col-xs-6 col-sm-3 emoji-Btn" data-name="Bored">
+                                    <img class="img-responsive" src="./assets/images/nahmojis/nahmojiBored.png" alt="bored">
+                                </div>
+                                <div class="col-xs-6 col-sm-3 emoji-Btn" data-name="Indifferent">
+                                    <img class="img-responsive" src="./assets/images/nahmojis/nahmojiIndifferent.png" alt="indifferent">
+                                </div>
                             </div>
                             <div id="imageResults">Image Results</div>
                         </p>
@@ -150,20 +158,21 @@
 
                     <div class="panel-body" id="ratherBody">
                         <p>
-                            <div id="ratherImg">Would Rather Div</div>
-                            <div id="mostPopularRather">blank div</div>
-                            <button class="btn btn-default primary" id="breatheBtn" type="button">Practiced Holding My Breathe</button>
-                            <button class="btn btn-default primary" id="napBtn" type="button">Take a Nap</button>
-                            <button class="btn btn-default primary" id="paintBtn" type="button">Watched Paint Dry</button>
-
+                            <div id="ratherImg"></div>
+                            <div id="mostPopularRather"></div>
+                            <div id="ratherButtons">
+                                <button class="btn btn-default primary shouldHaveBtn" id="breatheBtn" type="button" data-name="Practiced holding my breathe">Practiced Holding My Breathe</button>
+                                <button class="btn btn-default primary shouldHaveBtn" id="napBtn" type="button" data-name="Take a nap">Take a Nap</button>
+                                <button class="btn btn-default primary shouldHaveBtn" id="paintBtn" type="button" data-name="Watched paint dry">Watched Paint Dry</button>
+                            </div>
                         </p>
                     </div>
                 </div>
             </div>
-            <div class="col-sm-12 col-xs-12"> 
+            <div class="col-sm-12 col-xs-12">
                 <div class="panel panel-default ">
                     <div class="panel-heading" id="commentsHeading">
-                        <h1>Comments</h1> 
+                        <h1>Comments</h1>
                         <img src="./assets/images/nahmojicon-final.png" alt="nahmoji" class="img-responsive" width="60px" height="60px">
                     </div>
 
@@ -190,7 +199,7 @@
     </div>
     </div>
     </div>
-    
+
     </div>
     <script src="./assets/javascript/moment.js"></script>
     <script src="https://www.gstatic.com/firebasejs/4.11.0/firebase.js"></script>

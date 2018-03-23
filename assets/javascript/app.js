@@ -126,7 +126,7 @@ function fetchOrCreateMovies(movies, action) {
 
 
 function renderSearch(movies) {
-    console.log(movies);    // remove later.  look at console to make sure list is there.
+    // console.log(movies);    // remove later.  look at console to make sure list is there.
 
 
 
@@ -134,14 +134,14 @@ function renderSearch(movies) {
     //(11)   in the html file there is a div that has an ID of:  lifeWasters
     //      Hide this div.
     //      http://api.jquery.com/hide/
-   
+
     $("#lifeWasters").hide();
 
 
     //(12) Set the html() to an empty string for the resultsDisplay Div
-   
+
     $("#resultsDisplay").empty();
-   
+
     //Loop through all the movies
     for (let i = 0; i < movies.length; i++) {
         let movie = movies[i]; //get the movie at position [i] in the array.
@@ -166,9 +166,9 @@ function renderSearch(movies) {
 
 
         //(3) Create variables for the following: emotionName, emotionImage, emotionDescription
-        var emotionName = mostCountedEmotion.name; 
+        var emotionName = mostCountedEmotion.name;
         var emotionImage = IMG_BASE + mostCountedEmotion.emotion.img;
-        var emotionDescription = mostCountedEmotion.emotion.description; 
+        var emotionDescription = mostCountedEmotion.emotion.description;
         //(4) Set the value of the variable to the same property from the movie.
         // console.log(mostCountedEmotion.name);
         // console.log(mostCountedEmotion.emotion.img);
@@ -180,14 +180,14 @@ function renderSearch(movies) {
         //      Create a div and give it a class of "search-result"
         //      Also give this class an attribute called "data-movieId" (assign the movie id to this)
         var searchDiv = $("<div>");
-        $('searchDiv').addClass('search-result') 
+        $('searchDiv').addClass('search-result')
         $(searchDiv).attr("data-movieId", id);
         //(7)   Append to this div another div that contains an H1 tag as well as the movie title
         $(searchDiv).append($("<h1>").text(title));
         //(8)   Append to the search-result div an img tag that has a src = the poster
-        $(searchDiv).append($("<img>", {src:poster}));
+        $(searchDiv).append($("<img>", { src: poster, class: "poster-btn" }));
         //(9)   Append to the search-result div an img tag that has a src = emotionImage
-        $(searchDiv).append($("<img>", {src:emotionImage}));
+        $(searchDiv).append($("<img>", { src: emotionImage }));
         //(10)  Append this to the "resultsDisplay" div
         var resultsDisplay = $("#resultsDisplay")
         $(resultsDisplay).append(searchDiv)
@@ -198,7 +198,7 @@ function renderSearch(movies) {
     //(12)   in the html file there is a div that has an ID of: resultsDisplay
     //      Show this div (this is where all the search results will go)
     //      http://api.jquery.com/show/
-          $( "resultsDisplay" ).show();
+    $("resultsDisplay").show();
 }
 
 
@@ -304,7 +304,12 @@ async function upVoteShouldHaves(movieId, shouldHave) {
         }
     );
 
-    return shouldHaves;
+    let rows = []
+    for (let shouldHave in shouldHaves) {
+        rows.push([shouldHave, shouldHaves[shouldHave].count]);
+    }
+
+    return rows;
 }
 
 function renderShouldHavesChart(shouldHaves) {
@@ -486,8 +491,17 @@ $("#submitBtn").on("click", function (event) {
     let newComment = $("#comment").val().trim();
     let movieId = $("#moviePoster > .sel-poster-pic").attr("data-id");
     logNewComment(movieId, newComment);
+    $("#comment").val("");
 })
 
+
+$("#resultsDisplay").on("click", ".poster-btn", function (event) {
+    let movieId = $(this).parent().attr("data-movieid");
+    if (movieId) {
+
+        renderMovie(movieId);
+    }
+});
 
 $(".emoji-Btn").on("click", function (event) {
     let movieId = $("#moviePoster > .sel-poster-pic").attr("data-id");
@@ -495,7 +509,7 @@ $(".emoji-Btn").on("click", function (event) {
 
     if (movieId && emotion) {
         upVoteEmotion(movieId, emotion).then(function (data) {
-            data.sort(function(a, b){
+            data.sort(function (a, b) {
                 return a.count - b.count
             });
 
@@ -503,22 +517,22 @@ $(".emoji-Btn").on("click", function (event) {
             dataTable.addColumn('string', 'Emotion');
             dataTable.addColumn('number', 'Count');
             // A column for custom tooltip content
-            dataTable.addColumn({type: 'string', role: 'tooltip'});
+            dataTable.addColumn({ type: 'string', role: 'tooltip' });
             dataTable.addRows(data);
 
             // Set chart options
             let options = {
                 'title': 'How Other Watchers Felt',
                 'width': 400,
-                'height': 300
+                'height': 300,
+                'backgroundColor': { fill: 'transparent' }
             };
-
-console.log(data);
 
             let imgRes = document.getElementById('imageResults');
             let chart = new google.visualization.PieChart(imgRes);
             chart.draw(dataTable, options);
-            
+
+            imgRes.style.setProperty("display", "inline-block");
             $("#feelBody > .row").hide();
         });
     } else {
@@ -526,6 +540,48 @@ console.log(data);
         console.log(`Emotion: ${emotion}`)
     }
 });
+
+
+
+
+$(".shouldHaveBtn").on("click", function (event) {
+    let movieId = $("#moviePoster > .sel-poster-pic").attr("data-id");
+    let shouldHave = $(this).attr("data-name");
+
+    if (movieId && shouldHave) {
+        upVoteShouldHaves(movieId, shouldHave).then(function (data) {
+            data.sort(function (a, b) {
+                return a.count - b.count;
+            })
+
+            let dataTable = new google.visualization.DataTable();
+            dataTable.addColumn('string', 'Should Have');
+            dataTable.addColumn('number', 'Count');
+            dataTable.addRows(data);
+
+            // Set chart options
+            let options = {
+                'title': 'A Better Waste of Time',
+                'width': 400,
+                'height': 300,
+                'backgroundColor': { fill: 'transparent' }
+            };
+
+            let imgRes = document.getElementById('ratherImg');
+            let chart = new google.visualization.PieChart(imgRes);
+            chart.draw(dataTable, options);
+
+            imgRes.style.setProperty("display", "inline-block");
+            $("#ratherButtons").hide();
+        });
+
+    } else {
+        console.log(`movie id: ${movieId}`);
+        console.log(`shouldHave: ${shouldHave}`);
+    }
+
+});
+
 
 // upVoteEmotion(603, "Sad").then(function(r){
 
