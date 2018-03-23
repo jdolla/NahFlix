@@ -74,7 +74,7 @@ function renderPreview(preview) {
     let nahMojiDiv = $('<div>', { class: "nahMoji" });
     $(nahMojiDiv).html($('<img>', {
         class: "nahMoji-pic",
-        src: topNahMoji.emotion.img,
+        src: IMG_BASE + topNahMoji.emotion.img,
         alt: "A NahMoji",
         "data-name": topNahMoji.name,
         "data-description": topNahMoji.emotion.description
@@ -201,7 +201,7 @@ function mostCountedNahMoji(emotions) {
             "name": "Nah this flick?",
             "emotion": {
                 "description": "This flick hasn't been rated",
-                "img": "/nahMoji.jpg",
+                "img": "/nahflixNahmoji.png",
                 "count": 0
             }
         }
@@ -253,14 +253,12 @@ async function upVoteEmotion(movieId, emotion) {
         }
     );
 
-    debugger;
     let rows = []
     for (let NahMoji in NahMojis) {
         rows.push([NahMojis[NahMoji].emotion, NahMojis[NahMoji].count, NahMojis[NahMoji].description]);
-        debugger;
     }
 
-    return NahMojis;
+    return rows;
 }
 
 async function upVoteShouldHaves(movieId, shouldHave) {
@@ -446,7 +444,7 @@ const searchResults = $("#results");
 
 
 const MOVIE_DB_IMG_URL = "https://image.tmdb.org/t/p/w185";
-const IMG_BASE = "./assets/images";
+const IMG_BASE = "./assets/images/nahmojis";
 
 // google.charts.setOnLoadCallback(drawChart);
 
@@ -474,12 +472,17 @@ $("#submitBtn").on("click", function (event) {
 
 
 $(".emoji-Btn").on("click", function (event) {
-    let movieId = $("#moviePoster > .sel-poster-pic").attr("data-name");
+    let movieId = $("#moviePoster > .sel-poster-pic").attr("data-id");
     let emotion = $(this).attr("data-name");
 
     if (movieId && emotion) {
         upVoteEmotion(movieId, emotion).then(function (data) {
-            console.log(data);
+            data.sort(function(a, b){
+                return a.count - b.count
+            });
+            debugger;
+            
+            $("#feelBody > .row").hide();
         });
     } else {
         console.log(`MovieID: ${movieId}`);
