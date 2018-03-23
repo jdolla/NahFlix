@@ -167,7 +167,7 @@ function renderSearch(movies) {
 
         //(3) Create variables for the following: emotionName, emotionImage, emotionDescription
         var emotionName = mostCountedEmotion.name; 
-        var emotionImage = mostCountedEmotion.emotion.img;
+        var emotionImage = IMG_BASE + mostCountedEmotion.emotion.img;
         var emotionDescription = mostCountedEmotion.emotion.description; 
         //(4) Set the value of the variable to the same property from the movie.
         // console.log(mostCountedEmotion.name);
