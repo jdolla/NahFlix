@@ -112,3 +112,7 @@ img {
 .poster-btn{
     cursor: pointer;
 }
+
+.hidden {
+    display: none;
+}

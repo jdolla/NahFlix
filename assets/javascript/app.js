@@ -198,7 +198,11 @@ function renderSearch(movies) {
     //(12)   in the html file there is a div that has an ID of: resultsDisplay
     //      Show this div (this is where all the search results will go)
     //      http://api.jquery.com/show/
-    $("resultsDisplay").show();
+
+    $("#lifeWasters").parent().addClass("hidden");
+    $("#searchDetails").removeClass("hidden");
+    $("#movieDetails").addClass("hidden");
+
 }
 
 
@@ -411,9 +415,18 @@ function renderMovie(movieId) {
             $("#commentsDisplay").append(commentDiv);
         }
 
-        $("#lifeWasters").parent().hide();
-        $(searchResults).parent().parent().hide()
-        $(movieDetails).show();
+        let emotionChart = document.getElementById('imageResults');
+        emotionChart.style.setProperty("display", "none");
+        $("#feelBody > .row").show();
+
+        let shouldHaveChart = document.getElementById('ratherImg');
+        shouldHaveChart.style.setProperty("display", "none");
+        $("#ratherButtons").show();
+
+
+        $("#lifeWasters").parent().addClass("hidden");
+        $("#searchDetails").addClass("hidden");
+        $("#movieDetails").removeClass("hidden");
     });
 
 }
@@ -480,6 +493,7 @@ renderPreviews();
 document.getElementById("searchBtn").addEventListener("click", function (event) {
     var movie = $("#searchEngine").val().trim(); //Added trim to remove trailing spaces
     searchMovie(movie); // Call function to search for movies.
+    $("#searchEngine").val("");
 });
 
 
