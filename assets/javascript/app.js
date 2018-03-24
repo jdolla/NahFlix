@@ -190,7 +190,7 @@ function renderSearch(movies) {
         $(searchDiv).append($("<img>", { src: emotionImage }));
         //(10)  Append this to the "resultsDisplay" div
         var resultsDisplay = $("#resultsDisplay")
-        $(resultsDisplay).append(searchDiv)
+        $(resultsDisplay).append(searchDiv)  
 
     }
 
@@ -202,7 +202,8 @@ function renderSearch(movies) {
     $("#lifeWasters").parent().addClass("hidden");
     $("#searchDetails").removeClass("hidden");
     $("#movieDetails").addClass("hidden");
-
+    let mvBox = document.getElementById("searchResults");
+    mvBox.scrollIntoView();
 }
 
 
@@ -525,8 +526,6 @@ renderPreviews();
 
 //event listner for the Go button
 document.getElementById("searchBtn").addEventListener("click", function (event) {
-    debugger;
-    event.preventDefault();
     var movie = $("#searchEngine").val().trim(); //Added trim to remove trailing spaces
     searchMovie(movie); // Call function to search for movies.
     $("#searchEngine").val("");
@@ -535,6 +534,18 @@ document.getElementById("searchBtn").addEventListener("click", function (event) 
 
 $("#lifeWasters").on("click", ".moviePreview > .poster", function (event) {
     renderMovie($(this).attr("data-id"));
+});
+
+
+
+
+document.getElementById("searchEngine").addEventListener("keydown", function(event){
+    if(event.key === "Enter"){
+        event.preventDefault();
+        var movie = $("#searchEngine").val().trim(); //Added trim to remove trailing spaces
+        searchMovie(movie); // Call function to search for movies.
+        $("#searchEngine").val(""); 
+    }
 });
 
 $("#submitBtn").on("click", function (event) {
