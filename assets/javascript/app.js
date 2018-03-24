@@ -432,6 +432,7 @@ function renderMovie(movieId) {
     });
 
     setSlogan();
+    window.scrollTo(0, 0);
 }
 
 function logNewComment(movieId, comment) {
