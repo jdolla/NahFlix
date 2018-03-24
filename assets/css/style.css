@@ -116,3 +116,10 @@ img {
 .hidden {
     display: none;
 }
+
+.catchPhrase {
+    font-family: 'VT323', monospace;
+    font-size: 250%;
+    /* letter-spacing: 3px; */
+
+}
