@@ -432,7 +432,8 @@ function renderMovie(movieId) {
     });
 
     setSlogan();
-    window.scrollTo(0, 0);
+    // let movieTop = document.getElementById("movieHeading").getBoundingClientRect().top;
+    // window.scrollTo(0, movieTop);
 }
 
 function logNewComment(movieId, comment) {
