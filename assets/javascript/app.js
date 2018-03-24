@@ -451,19 +451,26 @@ function logNewComment(movieId, comment) {
 
 }
 
-function randBetween(x, y){
+function randBetween(min, max){
     return Math.floor(Math.random() * (max - min) ) + min;
 }
 
 function setSlogan(){
     const slogans = [
-        "Slogan One",
-        "Slogan Two",
-        "Slogan Three"
+        "Time is precious. Let somebody else waste it!",
+        "Know which flicks aren’t worth your time.",
+        "Know when to say Nah to Netflix",
+        "Why take a chance when you don’t have to?",
+        "Save money on therapy for bad movie PTSD.",
+        "When stars deceive you, we follow through!",
+        "When Netflix drops the ball, we pick it up.",
+        "Not all flix are worth the risk.",
+        "Know which flix to avoid on Netflix.",
+        "To watch or not to watch: that is the question."
     ];
 
     let i = randBetween(0, slogans.length);
-    $("#SloganLabel").text(slogans[i]);
+    $("#sloganLabel").text(slogans[i]);
 
 };
 
@@ -614,6 +621,8 @@ $(".shouldHaveBtn").on("click", function (event) {
     }
 
 });
+
+setSlogan();
 
 
 // upVoteEmotion(603, "Sad").then(function(r){
