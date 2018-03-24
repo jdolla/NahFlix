@@ -432,9 +432,16 @@ function renderMovie(movieId) {
     });
 
     setSlogan();
-    // let movieTop = document.getElementById("movieHeading").getBoundingClientRect().top;
-    // window.scrollTo(0, movieTop);
+    let mvBox = document.getElementById("movieDetails");
+    mvBox.scrollIntoView();
 }
+
+function getTopOffset(elem){
+    let bodyRect = document.body.getBoundingClientRect();
+    let elemRect = elem.getBoundingClientRect();
+    return elemRect.top - bodyRect.top;
+}
+
 
 function logNewComment(movieId, comment) {
     let timestamp = moment().unix();
