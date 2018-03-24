@@ -352,6 +352,8 @@ function searchMovie(movie) {
         }
         fetchOrCreateMovies(foundMovies, renderSearch);
     });
+
+    setSlogan();
 }
 
 async function getMovieById(id) {
@@ -429,6 +431,7 @@ function renderMovie(movieId) {
         $("#movieDetails").removeClass("hidden");
     });
 
+    setSlogan();
 }
 
 function logNewComment(movieId, comment) {
@@ -448,6 +451,21 @@ function logNewComment(movieId, comment) {
 
 }
 
+function randBetween(x, y){
+    return Math.floor(Math.random() * (max - min) ) + min;
+}
+
+function setSlogan(){
+    const slogans = [
+        "Slogan One",
+        "Slogan Two",
+        "Slogan Three"
+    ];
+
+    let i = randBetween(0, slogans.length);
+    $("#SloganLabel").text(slogans[i]);
+
+};
 
 
 
@@ -481,6 +499,7 @@ const searchResults = $("#searchResults");
 
 const MOVIE_DB_IMG_URL = "https://image.tmdb.org/t/p/w185";
 const IMG_BASE = "./assets/images/nahmojis";
+
 
 // google.charts.setOnLoadCallback(drawChart);
 
