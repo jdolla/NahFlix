@@ -525,6 +525,8 @@ renderPreviews();
 
 //event listner for the Go button
 document.getElementById("searchBtn").addEventListener("click", function (event) {
+    debugger;
+    event.preventDefault();
     var movie = $("#searchEngine").val().trim(); //Added trim to remove trailing spaces
     searchMovie(movie); // Call function to search for movies.
     $("#searchEngine").val("");
